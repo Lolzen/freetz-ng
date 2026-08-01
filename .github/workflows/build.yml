@@ -32,7 +32,15 @@ jobs:
             gawk flex quilt libssl-dev xsltproc libxml-parser-perl \
             mercurial bzr ecj cvs unzip patch bison wget python3 \
             rsync gettext autopoint texinfo help2man m4 cpio tar \
-            findutils file libc6-dev-i386 lib32stdc++6 curl
+            findutils file libc6-dev-i386 lib32stdc++6 curl \
+            libtool libelf-dev libacl1-dev libcap-dev libgnutls28-dev
+
+      - name: Prerequisites-Check von Freetz-NG selbst laufen lassen
+        run: |
+          # Fällt zusätzliche fehlende Pakete auf, die AVM/Freetz-NG-seitig
+          # noch verlangt werden, und installiert sie automatisch
+          tools/prerequisites install || true
+          tools/prerequisites check
 
       # dl/ (heruntergeladene Sourcen) und toolchain/ (gebauter Cross-Compiler)
       # ändern sich zwischen Builds kaum -> Cache spart massiv Zeit
