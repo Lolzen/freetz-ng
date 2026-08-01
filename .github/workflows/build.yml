@@ -1,0 +1,73 @@
+name: Build Freetz-NG Firmware
+
+# Manuell auslösbar, zusätzlich automatisch wenn sich die .config ändert
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths:
+      - '.config'
+
+jobs:
+  build:
+    # Freetz-NG baut am zuverlässigsten auf älteren/LTS Ubuntu-Images
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: .config vorhanden?
+        run: |
+          if [ ! -f .config ]; then
+            echo "::error::Keine .config im Repo-Root gefunden. Bitte vorher hochladen."
+            exit 1
+          fi
+
+      - name: Build-Abhängigkeiten installieren
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            build-essential subversion git libncurses5-dev zlib1g-dev \
+            gawk flex quilt libssl-dev xsltproc libxml-parser-perl \
+            mercurial bzr ecj cvs unzip patch bison wget python3 \
+            rsync gettext autopoint texinfo help2man m4 cpio tar \
+            findutils file libc6-dev-i386 lib32stdc++6 curl
+
+      # dl/ (heruntergeladene Sourcen) und toolchain/ (gebauter Cross-Compiler)
+      # ändern sich zwischen Builds kaum -> Cache spart massiv Zeit
+      - name: Cache Downloads & Toolchain
+        uses: actions/cache@v4
+        with:
+          path: |
+            dl
+            toolchain
+          key: freetz-ng-${{ runner.os }}-${{ hashFiles('.config') }}
+          restore-keys: |
+            freetz-ng-${{ runner.os }}-
+
+      - name: Neue Config-Optionen automatisch übernehmen
+        run: yes "" | make oldconfig
+
+      - name: Firmware bauen
+        run: make -j"$(nproc)"
+
+      - name: Ergebnis finden
+        id: find_image
+        run: |
+          IMAGE_PATH=$(find images -type f \( -iname "*.image" -o -iname "*.bin" \) | head -n 1)
+          if [ -z "$IMAGE_PATH" ]; then
+            echo "::error::Kein Firmware-Image im images/ Ordner gefunden."
+            exit 1
+          fi
+          echo "image_path=$IMAGE_PATH" >> "$GITHUB_OUTPUT"
+          echo "image_name=$(basename "$IMAGE_PATH")" >> "$GITHUB_OUTPUT"
+
+      - name: Firmware als Artifact hochladen
+        uses: actions/upload-artifact@v4
+        with:
+          # Artifact heißt jetzt genauso wie die gebaute Image-Datei
+          name: ${{ steps.find_image.outputs.image_name }}
+          path: ${{ steps.find_image.outputs.image_path }}
+          if-no-files-found: error
+          retention-days: 14
