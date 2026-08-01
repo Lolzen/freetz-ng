@@ -1,0 +1,8 @@
+languages
+{ en }
+default
+{ en }
+files
+{
+	usr/lib/cgi-bin/celllock.cgi
+}

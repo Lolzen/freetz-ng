@@ -1,0 +1,18 @@
+#!/bin/sh
+# Registriert celllock.cgi im Freetz-NG WebIF-Menü.
+# Kein eigener Daemon noetig - das CGI wird bei jedem Request frisch ausgefuehrt.
+
+case $1 in
+	""|load)
+		modreg cgi 'celllock' '5G Celllock'
+		;;
+	unload)
+		modunreg cgi 'celllock'
+		;;
+	*)
+		echo "Usage: $0 [load|unload]" 1>&2
+		exit 1
+		;;
+esac
+
+exit 0

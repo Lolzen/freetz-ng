@@ -1,0 +1,7 @@
+config FREETZ_PACKAGE_CELLLOCK_CGI
+	bool "Cell Lock WebGUI for Quectel RM500Q-AE"
+	default n
+	help
+		Web configuration interface for Quectel RM500Q-AE on the Fritzbox 6850 5Gv1
+		to send signal codes. (for example a cell lock)
+
