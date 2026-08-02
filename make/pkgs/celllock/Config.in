@@ -1,4 +1,4 @@
-config FREETZ_PACKAGE_CELLLOCK_CGI
+config FREETZ_PACKAGE_CELLLOCK
 	bool "Cell Lock WebGUI for Quectel RM500Q-AE"
 	default n
 	help
