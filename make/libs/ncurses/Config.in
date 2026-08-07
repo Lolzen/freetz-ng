@@ -1,3 +1,5 @@
+source "make/libs/ncurses/Config.in.terminfo"
+
 config FREETZ_LIB_libncurses
 	bool "ncurses (libncurses.so)"
 	select FREETZ_SHARE_terminfo

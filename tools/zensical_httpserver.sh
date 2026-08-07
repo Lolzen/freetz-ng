@@ -1,6 +1,7 @@
 #! /usr/bin/env bash
 SCRIPT="$(readlink -f $0)"
 PARENT="$(dirname ${SCRIPT%/*})"
+SETUP="$PARENT/zensical.txt"
 CONFIG="$PARENT/zensical.toml"
 OUT_DIR="$PARENT/_site"
 VENV_DIR="$PARENT/.zensical"
@@ -39,7 +40,7 @@ setup_virtenv() {
 	python3 -m venv "$VENV_DIR"      || exit 1
 	source "$VENV_DIR/bin/activate"  || exit 1
 	pip3 install --upgrade pip       || exit 1
-	pip3 install "zensical"          || exit 1
+	pip3 install -r "$SETUP"         || exit 1
 }
 
 ignore_site() {
