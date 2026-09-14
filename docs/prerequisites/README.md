@@ -62,11 +62,11 @@ sudo dnf -y update && sudo systemctl daemon-reload
 sudo dnf -y install \
   bc binutils bison bzip2 ccache cmake curl ecj elfutils-libelf-devel flex gcc gcc-c++ gettext \
   git glib2-devel glibc-devel glibc-devel.i686 gnutls-devel ImageMagick inkscape \
-  javapackages-tools kmod libacl-devel libatomic.i686 libattr-devel libcap-devel libgcc libglade2-devel \
-  libstdc++-devel libtool libuuid-devel libxml2-devel libzstd-devel make ncurses ncurses-devel \
-  ncurses-term netcat net-tools openssl openssl-devel openssl-devel-engine patch patchutils perl \
-  perl-String-CRC32 pkgconfig pv qt5-qtbase-devel readline-devel rpcgen rsync sharutils sqlite sqlite-devel \
-  subversion texinfo unar util-linux wget which xz zlib-ng-devel
+  javapackages-tools kmod libacl-devel libatomic libatomic.i686 libattr-devel libcap-devel libgcc \
+  libglade2-devel libstdc++-devel libtool libuuid-devel libxml2-devel libzstd-devel make ncurses \
+  ncurses-devel ncurses-term netcat net-tools openssl openssl-devel openssl-devel-engine patch \
+  patchutils perl perl-String-CRC32 pkgconfig pv qt5-qtbase-devel readline-devel rpcgen rsync \
+  sharutils sqlite sqlite-devel subversion texinfo unar util-linux wget which xz zlib-ng-devel
 ```
 
   - Fedora 41 64-Bit:
@@ -165,7 +165,7 @@ sudo apt -y upgrade
 sudo apt -y dist-upgrade
 ```
 
-  - Debian 13 64-Bit:
+  - Debian 13/14 64-Bit:
 ```
 sudo apt -y install \
   autopoint bc binutils bison bsdmainutils bzip2 ccache cmake curl ecj flex ftp g++ gawk gcc \

@@ -5,10 +5,14 @@ $(PKG)_SITE:=@SAVANNAH/fastjar
 ### WEBSITE:=https://savannah.nongnu.org/projects/fastjar
 ### CHANGES:=https://download.savannah.nongnu.org/releases/fastjar/
 ### CVSREPO:=https://cvs.savannah.nongnu.org/viewvc/fastjar/fastjar/
-### STEWARD:=fda77
+### STEWARD:=EOL
 
 $(PKG)_BINARY:=$($(PKG)_DIR)/fastjar
 $(PKG)_TARGET_BINARY:=$(TOOLS_DIR)/fastjar
+
+$(PKG)_DEPENDS_ON += config-host
+
+$(PKG)_CONFIGURE_PRE_CMDS += $(call PKG_UPDATE_CONFIGS,./)
 
 
 $(TOOLS_SOURCE_DOWNLOAD)

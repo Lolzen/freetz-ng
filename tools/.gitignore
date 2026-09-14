@@ -22,6 +22,7 @@
 /eva2lzma
 /execstack
 /fastjar
+/file
 /find-squashfs
 /ftp
 /genext2fs
@@ -34,6 +35,8 @@
 /makedevs
 /md5sum
 /meson
+/mklibs
+/mklibs-readelf
 /mksquashfs2-lzma
 /mksquashfs3-multi
 /mksquashfs4-avm-be

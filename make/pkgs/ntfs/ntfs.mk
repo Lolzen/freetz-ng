@@ -4,6 +4,8 @@ $(PKG)_SOURCE:=ntfs-3g_ntfsprogs-$($(PKG)_VERSION).tgz
 $(PKG)_HASH:=3e5a021d7b761261836dcb305370af299793eedbded731df3d6943802e1262d5
 $(PKG)_SITE:=http://tuxera.com/opensource
 
+$(PKG)_CATEGORY_LIBS:=File systems
+
 $(PKG)_LIB_BINARY:=$($(PKG)_DIR)/libntfs-3g/.libs/libntfs-3g.so.$($(PKG)_LIB_VERSION)
 $(PKG)_LIB_STAGING_BINARY:=$(TARGET_TOOLCHAIN_STAGING_DIR)/usr/lib/libntfs-3g.so.$($(PKG)_LIB_VERSION)
 $(PKG)_LIB_TARGET_BINARY:=$($(PKG)_TARGET_LIBDIR)/libntfs-3g.so.$($(PKG)_LIB_VERSION)

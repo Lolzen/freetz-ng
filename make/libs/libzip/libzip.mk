@@ -9,6 +9,8 @@ $(PKG)_SITE:=https://github.com/nih-at/libzip/releases/download/v$($(PKG)_VERSIO
 ### CVSREPO:=https://github.com/nih-at/libzip
 ### STEWARD:=fda77
 
+$(PKG)_CATEGORY_LIBS:=Data compression
+
 $(PKG)_DIR_STATIC := $($(PKG)_DIR)/builddir-static
 $(PKG)_DIR_SHARED := $($(PKG)_DIR)/builddir-shared
 

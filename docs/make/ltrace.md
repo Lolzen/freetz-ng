@@ -4,7 +4,7 @@
   - Changelog: [https://gitlab.com/cespedes/ltrace/commits/main](https://gitlab.com/cespedes/ltrace/commits/main)
   - Repository: [https://gitlab.com/cespedes/ltrace](https://gitlab.com/cespedes/ltrace)
   - Package: [master/make/pkgs/ltrace/](https://github.com/Freetz-NG/freetz-ng/tree/master/make/pkgs/ltrace/)
-  - Steward: -
+  - Steward: ???
 
 **ltrace** ist ein Debug-Tool, mit dem sich von einem Programm ausgelöste "Library Calls" (Bibliotheks-Aufrufe) sowie alle empfangenen Signale monitoren lassen.
 Ein vergleichbares Tool findet sich im Paket [strace](strace.md).

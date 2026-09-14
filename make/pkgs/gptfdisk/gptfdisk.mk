@@ -7,7 +7,7 @@ $(PKG)_SITE:=http://pkgs.fedoraproject.org/lookaside/pkgs/gdisk/$(pkg)-$($(PKG)_
 # log2/log are provided by libm in uClibc
 $(PKG)_PATCH_POST_CMDS += $(SED) -r -i -e 's,(-luuid),\1 -lm,g' Makefile;
 
-$(PKG)_CATEGORY:=Unstable
+$(PKG)_CATEGORY_PKGS:=Unstable
 
 $(PKG)_BINARY:=$($(PKG)_DIR)/gdisk
 $(PKG)_TARGET_BINARY:=$($(PKG)_DEST_DIR)/usr/bin/gdisk

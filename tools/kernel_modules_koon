@@ -90,6 +90,11 @@ main() {
 			pl2303)				koon  USB_SERIAL_PL2303			 ;;
 			usbserial)			koon  USB_SERIAL			 ;;
 
+			input_core)			koon  INPUT				 ;;
+			hid)				koon  HID				 ;;
+			hid_generic)			koon  HID_GENERIC			 ;;
+			usbhid)				koon  USB_HID				 ;;
+
 			ext2)				koon  EXT2_FS				 ;;
 			ext3)				koon  EXT3_FS				 ;;
 			jbd)				koon  JBD				 ;;

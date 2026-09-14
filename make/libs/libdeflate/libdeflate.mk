@@ -1,13 +1,15 @@
-$(call PKG_INIT_LIB, 1.25)
+$(call PKG_INIT_LIB, 1.26)
 $(PKG)_SHLIB_VERSION:=0
 $(PKG)_SOURCE:=$(pkg)-$($(PKG)_VERSION).tar.gz
-$(PKG)_HASH:=fed5cd22f00f30cc4c2e5329f94e2b8a901df9fa45ee255cb70e2b0b42344477
+$(PKG)_HASH:=125856d4656e0feab660f94842f835923410c9281fedbcee64598c918da42b5a
 $(PKG)_SITE:=https://github.com/ebiggers/libdeflate/releases/download/v$($(PKG)_VERSION)
 ### WEBSITE:=https://github.com/ebiggers/libdeflate#readme
 ### MANPAGE:=https://github.com/ebiggers/libdeflate/blob/master/NEWS.md
 ### CHANGES:=https://github.com/ebiggers/libdeflate/releases
 ### CVSREPO:=https://github.com/ebiggers/libdeflate
 ### STEWARD:=fda77
+
+$(PKG)_CATEGORY_LIBS:=Data compression
 
 $(PKG)_LIBNAME=$(pkg).so.$($(PKG)_SHLIB_VERSION)
 $(PKG)_BINARY:=$($(PKG)_DIR)/$($(PKG)_LIBNAME)

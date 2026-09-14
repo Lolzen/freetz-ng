@@ -1,6 +1,6 @@
-$(call TOOLS_INIT, 5.47)
+$(call TOOLS_INIT, 5.48)
 $(PKG)_SOURCE:=$(pkg_short)-$($(PKG)_VERSION).tar.gz
-$(PKG)_HASH:=45672fec165cb4cc1358a2d76b5d57d22876dcb97ab169427ac385cbe1d5597a
+$(PKG)_HASH:=ed14656883b23a364b4057c05595d93252da9bc473d30106519519d0da141283
 $(PKG)_SITE:=http://ftp.astron.com/pub/file,ftp://ftp.astron.com/pub/file
 ### WEBSITE:=https://www.darwinsys.com/file/
 ### MANPAGE:=https://linux.die.net/man/1/file
@@ -9,7 +9,7 @@ $(PKG)_SITE:=http://ftp.astron.com/pub/file,ftp://ftp.astron.com/pub/file
 ### STEWARD:=fda77
 
 $(PKG)_BINARY_BUILD:=$($(PKG)_DIR)/src/file
-$(PKG)_BINARY_TARGET:=$(TOOLS_BUILD_DIR)/usr/bin/file
+$(PKG)_BINARY_TARGET:=$(TOOLS_DIR)/file
 
 $(PKG)_MAGIC_BUILD := $($(PKG)_DIR)/magic/magic.mgc
 $(PKG)_MAGIC_TARGET := $(TOOLS_BUILD_DIR)/usr/share/misc/magic.mgc

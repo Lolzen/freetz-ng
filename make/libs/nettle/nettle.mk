@@ -7,6 +7,8 @@ $(PKG)_SITE:=@GNU/nettle,https://www.lysator.liu.se/~nisse/archive
 ### CHANGES:=https://git.lysator.liu.se/nettle/nettle/blob/master/ChangeLog
 ### CVSREPO:=https://git.lysator.liu.se/nettle/nettle
 
+$(PKG)_CATEGORY_LIBS:=Crypto & SSL##Nettle
+
 $(PKG)_LIBNAMES         := nettle hogweed
 $(PKG)_LIBVERSIONS      := 8.11   6.11
 $(PKG)_LIBNAMES_LONG    := $(join $($(PKG)_LIBNAMES:%=lib%.so.),$($(PKG)_LIBVERSIONS))

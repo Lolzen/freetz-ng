@@ -1,8 +1,11 @@
-$(call TOOLS_INIT, 2026-08-04)
-$(PKG)_SOURCE:=tools-$($(PKG)_VERSION).tar.xz
-$(PKG)_HASH:=ac171d686d6d6038022ec11adc5fd0364300279e2bd5456261745080b7749c4c
+$(call TOOLS_INIT, 2026-09-06)
+$(PKG)_SOURCE:=tools-$($(PKG)_VERSION).tar.lzma
+$(PKG)_HASH:=bee3de36704f6acc29a4f5efa0f9c951b83fa93dadb1089ec5f7e44c4ce6bb8e
 $(PKG)_SITE:=@DLTOKEN/https://api.github.com/repos/Freetz-NG/internal/releases/tags/host-tools
 ### STEWARD:=fda77
+
+$(PKG)_BUILD_PREREQ += $(if $(filter x86_64,$(HOST_ARCH)),,x86_64-system)
+$(PKG)_BUILD_PREREQ_HINT := You have to use a x86_64 system to compile this
 
 $(PKG)_DEPENDS_ON:=kconfig-host
 

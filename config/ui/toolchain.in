@@ -190,6 +190,10 @@ choice
 		bool "kernel-5.4.293"
 		depends on FREETZ_AVM_PROP_KERNEL_5_4_293
 
+	config FREETZ_KERNEL_VERSION_5_4_302
+		bool "kernel-5.4.302"
+		depends on FREETZ_AVM_PROP_KERNEL_5_4_302
+
 
 	config FREETZ_KERNEL_VERSION_5_15_111
 		bool "kernel-5.15.111"
@@ -199,9 +203,17 @@ choice
 		bool "kernel-5.15.153"
 		depends on FREETZ_AVM_PROP_KERNEL_5_15_153
 
+	config FREETZ_KERNEL_VERSION_5_15_176
+		bool "kernel-5.15.176"
+		depends on FREETZ_AVM_PROP_KERNEL_5_15_176
+
 	config FREETZ_KERNEL_VERSION_5_15_179
 		bool "kernel-5.15.179"
 		depends on FREETZ_AVM_PROP_KERNEL_5_15_179
+
+	config FREETZ_KERNEL_VERSION_5_15_215
+		bool "kernel-5.15.215"
+		depends on FREETZ_AVM_PROP_KERNEL_5_15_215
 
 endchoice
 
@@ -225,7 +237,7 @@ config FREETZ_KERNEL_BINUTILS_2_36_DEFAULT
 	depends on FREETZ_AVM_GCC_9
 config FREETZ_KERNEL_BINUTILS_2_42_DEFAULT
 	def_bool y
-	depends on FREETZ_AVM_GCC_10 && FREETZ_TARGET_BITS_32
+	depends on (FREETZ_AVM_GCC_10 && FREETZ_TARGET_BITS_32) || FREETZ_AVM_GCC_13
 config FREETZ_KERNEL_BINUTILS_2_45_DEFAULT
 	def_bool y
 	depends on FREETZ_AVM_GCC_10 && FREETZ_TARGET_BITS_64
@@ -294,8 +306,9 @@ choice
 
 	config FREETZ_KERNEL_BINUTILS_2_42
 		bool "binutils-2.42"
-		depends on FREETZ_AVM_GCC_10 && FREETZ_TARGET_BITS_32
+		depends on (FREETZ_AVM_GCC_10 && FREETZ_TARGET_BITS_32) || FREETZ_AVM_GCC_13
 		# depends on any kernel version, used by avm for kernel 4.19 arm32 (1700+2700) only so far
+		# labor 1700+2700 for kernel 5.15 unknown, gpl seems to be optional for avm as public beta are "not public"
 		depends on FREETZ_KERNEL_BINUTILS_2_42_DEFAULT || (FREETZ_BUILD_TOOLCHAIN || FREETZ_DL_TOOLCHAIN_OVERRIDE)
 
 	config FREETZ_KERNEL_BINUTILS_2_45
@@ -320,6 +333,7 @@ choice
 	default FREETZ_KERNEL_GCC_9_3  if FREETZ_AVM_GCC_9_3
 	default FREETZ_KERNEL_GCC_9_4  if FREETZ_AVM_GCC_9_4
 	default FREETZ_KERNEL_GCC_10_5 if FREETZ_AVM_GCC_10_5
+	default FREETZ_KERNEL_GCC_13_3 if FREETZ_AVM_GCC_13_3
 
 	config FREETZ_KERNEL_GCC_3_4
 		bool "gcc-3.4.6"
@@ -369,6 +383,10 @@ choice
 		bool "gcc-10.5"
 		depends on FREETZ_AVM_GCC_10_5
 
+	config FREETZ_KERNEL_GCC_13_3
+		bool "gcc-13.3"
+		depends on FREETZ_AVM_GCC_13_3
+
 endchoice
 
 ###
@@ -411,6 +429,11 @@ config FREETZ_KERNEL_GCC_10
 	depends on \
 		FREETZ_KERNEL_GCC_10_5
 
+config FREETZ_KERNEL_GCC_13
+	def_bool y
+	depends on \
+		FREETZ_KERNEL_GCC_13_3
+
 ###
 ### FREETZ_KERNEL_GCC_x_MIN
 ###
@@ -448,7 +471,13 @@ config FREETZ_KERNEL_GCC_9_MIN
 config FREETZ_KERNEL_GCC_10_MIN
 	def_bool y
 	depends on \
-		FREETZ_KERNEL_GCC_10
+		FREETZ_KERNEL_GCC_10 || \
+		FREETZ_KERNEL_GCC_13_MIN
+
+config FREETZ_KERNEL_GCC_13_MIN
+	def_bool y
+	depends on \
+		FREETZ_KERNEL_GCC_13
 
 ###
 ### FREETZ_KERNEL_GCC_x_MAX
@@ -489,6 +518,12 @@ config FREETZ_KERNEL_GCC_10_MAX
 		FREETZ_KERNEL_GCC_9_MAX || \
 		FREETZ_KERNEL_GCC_10
 
+config FREETZ_KERNEL_GCC_13_MAX
+	def_bool y
+	depends on \
+		FREETZ_KERNEL_GCC_10_MAX || \
+		FREETZ_KERNEL_GCC_13
+
 ###
 ###
 ###
@@ -520,6 +555,7 @@ config FREETZ_KERNEL_GCC_VERSION
 	default "9.3.0"  if FREETZ_KERNEL_GCC_9_3
 	default "9.4.0"  if FREETZ_KERNEL_GCC_9_4
 	default "10.5.0" if FREETZ_KERNEL_GCC_10_5
+	default "13.3.0" if FREETZ_KERNEL_GCC_13_3
 
 
 comment "Target toolchain options ----------------------------------------"
@@ -554,7 +590,7 @@ choice
 	default FREETZ_TARGET_UCLIBC_0_9_32 if FREETZ_AVM_UCLIBC_0_9_32
 	default FREETZ_TARGET_UCLIBC_0_9_33 if FREETZ_AVM_UCLIBC_0_9_33
 	default FREETZ_TARGET_UCLIBC_1_0_14 if FREETZ_AVM_UCLIBC_1_0_14
-	default FREETZ_TARGET_UCLIBC_1_0_58 if FREETZ_SEPARATE_AVM_UCLIBC
+	default FREETZ_TARGET_UCLIBC_1_0_59 if FREETZ_SEPARATE_AVM_UCLIBC
 
 	config FREETZ_TARGET_UCLIBC_0_9_28
 	bool "uclibc-0.9.28"
@@ -579,8 +615,8 @@ choice
 	bool "uclibc-1.0.14"
 	depends on FREETZ_AVM_UCLIBC_1_0_14
 
-	config FREETZ_TARGET_UCLIBC_1_0_58
-	bool "uclibc-1.0.58"
+	config FREETZ_TARGET_UCLIBC_1_0_59
+	bool "uclibc-1.0.59"
 	depends on FREETZ_SEPARATE_AVM_UCLIBC
 
 endchoice
@@ -1202,7 +1238,7 @@ config FREETZ_TARGET_UCLIBC_0
 config FREETZ_TARGET_UCLIBC_1
 	bool
 	default y           if FREETZ_TARGET_UCLIBC_1_0_14
-	default y           if FREETZ_TARGET_UCLIBC_1_0_58
+	default y           if FREETZ_TARGET_UCLIBC_1_0_59
 	default n
 
 config FREETZ_TARGET_UCLIBC_VERSION
@@ -1212,7 +1248,7 @@ config FREETZ_TARGET_UCLIBC_VERSION
 	default "0.9.32.1"  if FREETZ_TARGET_UCLIBC_0_9_32
 	default "0.9.33.2"  if FREETZ_TARGET_UCLIBC_0_9_33
 	default "1.0.14"    if FREETZ_TARGET_UCLIBC_1_0_14
-	default "1.0.58"    if FREETZ_TARGET_UCLIBC_1_0_58
+	default "1.0.59"    if FREETZ_TARGET_UCLIBC_1_0_59
 
 config FREETZ_TARGET_UCLIBC_MAJOR_VERSION
 	string
@@ -1435,7 +1471,7 @@ config FREETZ_HOSTTOOLS_BUILD
 
 choice
 	prompt "Root emulator"
-	default FREETZ_ROOTEMU_PSEUDO
+	default FREETZ_ROOTEMU_FAKEROOT
 
 	config FREETZ_ROOTEMU_FAKEROOT
 		bool "Use fakeroot"
@@ -1445,19 +1481,27 @@ choice
 
 endchoice # "Root emulator" #
 
-config FREETZ_TOOLS_KCONFIG_OLDSCHOOL
-	bool "Additional load+save buttons in menuconfig"
-	depends on FREETZ_SHOW_EXPERT
-	default n
-	help
-		Not only select+exit+help buttons at bottom
-		but additional useless load+save buttons.
+choice
+
+	prompt "Fakeroot version" if FALSE
+		depends on !FREETZ_HOSTTOOLS_DOWNLOAD
+		default FREETZ_TOOLS_FAKEROOT_VERSION_CURRENT
+
+	config FREETZ_TOOLS_FAKEROOT_VERSION_ABANDON
+		bool "old"
+		depends on FREETZ_ANCIENT_SYSTEM
+
+	config FREETZ_TOOLS_FAKEROOT_VERSION_CURRENT
+		bool "new"
+		depends on !FREETZ_ANCIENT_SYSTEM
+
+endchoice # "Fakeroot version"
 
 choice
 
-	prompt "Patchelf version"
-		default FREETZ_TOOLS_PATCHELF_VERSION_CURRENT
+	prompt "Patchelf version" if FALSE
 		depends on !FREETZ_HOSTTOOLS_DOWNLOAD
+		default FREETZ_TOOLS_PATCHELF_VERSION_CURRENT
 
 	config FREETZ_TOOLS_PATCHELF_VERSION_ABANDON
 		bool "old"
@@ -1471,7 +1515,15 @@ choice
 		help
 			Requires at least gcc v7
 
-endchoice
+endchoice # "Patchelf version"
+
+config FREETZ_TOOLS_KCONFIG_OLDSCHOOL
+	bool "Additional load+save buttons in menuconfig"
+	depends on FREETZ_SHOW_EXPERT
+	default n
+	help
+		Not only select+exit+help buttons at bottom
+		but additional useless load+save buttons.
 
 endmenu # "Toolchain options" #
 

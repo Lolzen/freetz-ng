@@ -345,6 +345,32 @@ config FREETZ_MODULE_usbmon
 		enabled in all freetz .config's for 2.6.13 & 2.6.19, disabled for 2.6.28
 
 
+comment " input"
+
+config FREETZ_MODULE_input_core
+	bool "input-core.ko"
+	depends on !FREETZ_AVM_HAS_INPUT_BUILTIN && FREETZ_KERNEL_VERSION_2_6_13_MIN  # since 2.6.12
+	default n
+
+config FREETZ_MODULE_hid
+	bool "hid.ko"
+	depends on !FREETZ_AVM_HAS_HID_BUILTIN && FREETZ_KERNEL_VERSION_2_6_28_MIN  # since 2.6.20
+	select FREETZ_MODULE_input_core if !FREETZ_AVM_HAS_INPUT_BUILTIN
+	default n
+
+config FREETZ_MODULE_hid_generic
+	bool "hid_generic.ko"
+	depends on !FREETZ_AVM_HAS_HID_GENERIC_BUILTIN && FREETZ_KERNEL_VERSION_3_MIN  # since 3.1
+	select FREETZ_MODULE_hid if !FREETZ_AVM_HAS_HID_BUILTIN
+	default n
+
+config FREETZ_MODULE_usbhid
+	bool "usbhid.ko"
+	depends on !FREETZ_AVM_HAS_USB_HID_BUILTIN && FREETZ_KERNEL_VERSION_2_6_28_MIN  # since 2.6.20
+	select FREETZ_MODULE_hid if !FREETZ_AVM_HAS_HID_BUILTIN
+	default n
+
+
 comment " ppp"
 
 config FREETZ_MODULE_ppp_async

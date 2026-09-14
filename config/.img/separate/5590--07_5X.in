@@ -71,6 +71,10 @@ config FREETZ_AVM_HAS_IP_BINARY
 config FREETZ_AVM_HAS_NOEXEC
 	def_bool y
 
+config FREETZ_AVM_HAS_AR7_LITE
+	string
+	default "/bin/upx-hwk-boot-prx"
+
 config FREETZ_AVM_HAS_AHA
 	def_bool y
 
@@ -174,6 +178,9 @@ config FREETZ_AVM_HAS_HOSTAPD
 	def_bool y
 
 config FREETZ_AVM_HAS_HOSTAPD_VERSION_2_10
+	def_bool y
+
+config FREETZ_AVM_HAS_RUN_CLOCK
 	def_bool y
 
 config FREETZ_AVM_HAS_DTRACE

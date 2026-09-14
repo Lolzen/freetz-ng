@@ -1,5 +1,5 @@
 default_password_set() {
-	[ "$MOD_HTTPD_PASSWD" == '$1$$zO6d3zi9DefdWLMB.OHaO.' ]
+	[ "$MOD_HTTPD_PASSWD" == '$1$freetzng$i0SVp/Hgvxd80q6MIUq701' ]
 }
 
 if default_password_set; then

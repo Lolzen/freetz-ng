@@ -1,6 +1,6 @@
-$(call TOOLS_INIT, 0.1.45)
+$(call TOOLS_INIT, 0.1.46)
 $(PKG)_SOURCE:=mklibs_$($(PKG)_VERSION).tar.xz
-$(PKG)_HASH:=dd92a904b3942566f713fe536cd77dd1a5cfc62243c0e0bc6bb5d866e37422f3
+$(PKG)_HASH:=1b2f64d93a8896ec9e47686e1a481cb4ac9e49fe59df84c33e0d12a28903bbae
 $(PKG)_SITE:=@DEBIAN/mklibs
 ### WEBSITE:=https://packages.debian.org/sid/mklibs
 ### MANPAGE:=https://manpages.debian.org/unstable/mklibs/mklibs.1.html
@@ -10,16 +10,13 @@ $(PKG)_SITE:=@DEBIAN/mklibs
 
 $(PKG)_DEPENDS_ON+=python3-host
 
-$(PKG)_DESTDIR:=$(FREETZ_BASE_DIR)/$(TOOLS_DIR)/build/bin
-
 $(PKG)_SCRIPT:=$($(PKG)_DIR)/src/mklibs
-$(PKG)_TARGET_SCRIPT:=$($(PKG)_DESTDIR)/mklibs
+$(PKG)_TARGET_SCRIPT:=$(TOOLS_DIR)/mklibs
+
 $(PKG)_READELF_BINARY:=$($(PKG)_DIR)/src/mklibs-readelf/mklibs-readelf
-$(PKG)_READELF_TARGET_BINARY:=$($(PKG)_DESTDIR)/mklibs-readelf
+$(PKG)_READELF_TARGET_BINARY:=$(TOOLS_DIR)/mklibs-readelf
 
 $(PKG)_CONFIGURE_PRE_CMDS += $(AUTORECONF)
-
-$(PKG)_CONFIGURE_OPTIONS += --prefix=/
 
 
 $(TOOLS_SOURCE_DOWNLOAD)
@@ -29,7 +26,12 @@ $(TOOLS_CONFIGURED_CONFIGURE)
 $($(PKG)_SCRIPT): $($(PKG)_DIR)/.unpacked
 
 $($(PKG)_READELF_BINARY): $($(PKG)_DIR)/.configured
-	$(TOOLS_SUBMAKE) CC="$(TOOLS_CC)" CXX="$(TOOLS_CXX)" CFLAGS="$(TOOLS_CFLAGS)" LDFLAGS="$(TOOLS_LDFLAGS)" -C $(MKLIBS_HOST_DIR) all
+	$(TOOLS_SUBMAKE) -C $(MKLIBS_HOST_DIR) \
+		CC="$(TOOLS_CC)" \
+		CXX="$(TOOLS_CXX)" \
+		CFLAGS="$(TOOLS_CFLAGS)" \
+		LDFLAGS="$(TOOLS_LDFLAGS)" \
+		all
 
 $($(PKG)_TARGET_SCRIPT): $($(PKG)_SCRIPT)
 	$(INSTALL_FILE)

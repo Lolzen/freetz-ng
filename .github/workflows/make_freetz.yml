@@ -120,7 +120,8 @@ jobs:
         env:
           FREETZ_DLTOKEN: ${{ secrets.FREETZ_DLTOKEN }}
         run: |
-          make && rm -f images/latest.image
+          make
+          rm -f images/latest.image
       - name: result
         run: |
           echo "##########################################################"
@@ -159,6 +160,7 @@ jobs:
           body: |
             ${{ steps.vars.outputs.last }}
             ${{ steps.vars.outputs.link }}
+          draft: true
           prerelease: false
           allowUpdates: true
           removeArtifacts: false
@@ -166,7 +168,6 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           replacesArtifacts: false
           artifactErrorsFailBuild: true
-          draft: true
 
 #     - name: cache_clear
 #       if: github.repository == 'freetz-ng/freetz-ng'

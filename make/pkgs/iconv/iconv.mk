@@ -8,6 +8,8 @@ $(PKG)_SITE:=@GNU/$(pkg)
 ### CHANGES:=https://ftp.gnu.org/pub/gnu/libiconv/
 ### CVSREPO:=https://git.savannah.gnu.org/gitweb/?p=libiconv.git
 
+$(PKG)_CATEGORY_LIBS:=Charsets & Internationalization
+
 ifeq ($(strip $(FREETZ_TARGET_UCLIBC_0_9_28)),y)
 LIB$(PKG)_PREFIX:=/usr
 else
