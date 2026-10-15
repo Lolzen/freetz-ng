@@ -148,13 +148,19 @@ jobs:
           # manually appended values during olddefconfig.
           echo "FREETZ_DL_SOURCE=\"$IMAGE\"" >> "$GITHUB_ENV"
           echo 'FREETZ_DL_SITE=""' >> "$GITHUB_ENV"
-          make -s --eval='verify-labor-image:;@test -n "$(DL_IMAGE)" && test -s "$(DL_IMAGE)"' verify-labor-image
+          # Check the actual source file here; the Envira Makefile wrapper
+          # does not forward --eval rules to its recursive make invocation.
+          test -s "dl/fw/$IMAGE"
 
       - name: Firmware bauen
         shell: bash
         run: |
           set -o pipefail
-          make -j"$(nproc)" 2>&1 | tee /tmp/freetz-build.log
+          if [ "$GITHUB_REF_NAME" = labor ]; then
+            make -j"$(nproc)" FREETZ_DL_SOURCE="$FREETZ_DL_SOURCE" FREETZ_DL_SITE= 2>&1 | tee /tmp/freetz-build.log
+          else
+            make -j"$(nproc)" 2>&1 | tee /tmp/freetz-build.log
+          fi
 
 
       - name: Ergebnis finden
