@@ -67,7 +67,12 @@ jobs:
             fi
             printf 'FREETZ_GNULIBATOMIC_VERSION="%s"\n' "$LIBATOMIC_VERSION" >> .config
           fi
+          echo 'libatomic config after olddefconfig:'
           grep -E '^(FREETZ_LIB_libatomic|FREETZ_GNULIBATOMIC_VERSION)=' .config || true
+          if ! grep -qx 'FREETZ_LIB_libatomic=y' .config; then
+            echo '::error::Kconfig removed libatomic selection; inspect hardware and toolchain dependencies.'
+            exit 1
+          fi
 
       - name: Labor-Firmware aus AVM-ZIP bereitstellen
         if: github.ref_name == 'labor'
