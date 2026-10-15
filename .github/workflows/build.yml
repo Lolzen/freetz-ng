@@ -92,6 +92,7 @@ jobs:
               'FREETZ_SHOW_EXPERT=y',
               'FREETZ_TYPE_FIRMWARE_08_5X_LABOR=y',
               'FREETZ_PACKAGE_CELLLOCK=y',
+              'FREETZ_LIB_libcurl_WITH_VERSION_ABANDON=y',
           ]
           p.write_text('\n'.join(lines) + '\n')
           PY
