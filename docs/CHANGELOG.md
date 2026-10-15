@@ -4,6 +4,7 @@ Latest changes
 
   - Freetz-NG
     * [devel](#devel)
+    * [ng26090](#ng26090)
     * [ng26020](#ng26020)
     * [ng25090](#ng25090)
     * [ng25030](#ng25030)
@@ -64,30 +65,99 @@ Latest changes
 ### devel
 
   - Build system:
+    * ccache 4.14.1
+
+  - Host tools:
+    * cmake 4.4.4
+    * openssl 3.5.9
+    * patchelf 0.14.5/0.19.2
+    * python3 3.14.8
+    * U-Boot 2026.10
+
+  - AVM sources:
+    * 1700     8.26 - 5.15.176
+    * 2700     8.26 - 5.15.176
+
+  - Patches:
+    * New tagging: custom & modded
+    * Various Fritzos 8.25 related fixes
+    * Various Fritzos 8.50 related fixes
+
+  - Packages:
+    * Apache2 2.4.69
+    * axTLS wrapper 2.1.5
+    * Bftpd 6.7
+    * bridge-utils 1.7.1
+    * Curl 8.12.1/8.23.0
+    * Empty 0.6.23d
+    * endlessh 1.1
+    * FFmpeg 5.1.10/7.1.5
+    * GnuTLS 3.7.11/3.8.13
+    * ImageMagick 7.1.0-62/7.1.2-34
+    * iPerf3 3.3/3.22
+    * lsof 4.99.7
+    * Lua 5.1.5/5.5.1
+    * OpenSSH 9.3p2/10.6p1
+    * OpenSSL 0.9.8zh/1.0.2u/1.1.1w/3.0.22/3.5.9
+    * OpenVPN 2.4.12/2.5.11/2.6.23/2.7.8
+    * Patchelf 0.19.2
+    * PHP 5.6.40/8.2.34/8.3.35/8.4.26/8.5.11
+    * procps-ng 4.0.7
+    * Python3 3.14.8
+    * rpcbind 1.3.1
+    * ser2net 3.5.4/4.6.8
+    * sispmctl 4.12
+    * tcpdump 4.99.7
+    * tmux 3.8
+    * Tor 0.4.8.25/0.4.9.14
+    * Vim 9.2.1169
+
+  - Libraries:
+    * expat 2.7.5/2.9.0
+    * gensio 3.0.4
+    * GLib2 2.32.4/2.90.1
+    * harfbuzz 14.6.0
+    * libconfuse 3.4
+    * libgcrypt 1.12.4
+    * libgpg-error 1.61
+    * libpcap 1.11.0
+    * libpng 1.6.59
+    * libtasn1 4.21.0
+    * libzip 1.12.1
+    * pcre2 10.49
+    * utf8proc 2.12.0
+
+  - Firmware updates:
+    * Please see [FIRMWARES](FIRMWARES.md) for the list of currently supported devices and firmwares.
+
+### ng26090
+
+  - Build system:
     * ccache 4.14
     * gcc (kernel) 3.4.6/4.6.4/4.7.4/4.8.5/5.5.0/8.3.0/8.4.0/9.3.0/9.4.0/10.5.0/13.3.0
     * uClibc 0.9.28/0.9.29/0.9.32.1/0.9.33.2/1.0.14/1.0.59
 
   - Host tools:
-    * busybox 1.38.0
     * autoconf 2.73
-    * ca-bundle 2026-08-13
+    * automake 1.19
+    * busybox 1.38.0
+    * ca-bundle 2026-09-25
     * cmake 4.4.3
     * config 4286648
-    * dos2unix 7.5.6
+    * dos2unix 7.5.7
     * dtc 1.8.1
     * fakeroot 1.38.1/2.1.4
     * file 5.48
-    * genext2fs 1.6.2
+    * genext2fs 1.6.3
     * kconfig 7.2
     * libtool 2.6.2
     * lzma2 5.8.4
-    * meson 1.12.0
+    * meson 1.12.1
     * mklibs 0.1.46
     * openssl 3.5.8
     * patchelf 0.14.5/0.19.1
     * patch 2.8
-    * pkgconf 3.0.1
+    * pkgconf 3.0.7
     * pseudo 1.9.11
     * python3 3.14.7
     * python3-attrs 26.1.0
@@ -96,11 +166,13 @@ Latest changes
     * python3-pip 26.2.1
     * python3-setuptools 84.0.0
     * sed 4.10
+    * tools 2026-09-21
     * uboot 2026.07
     * util-linux 2.42.2
 
   - AVM sources:
     * 5690 XGS 8.25 - 5.4.293
+    * 6850 5G  8.25 - 4.4.271
 
   - Scripts:
     * zensical_httpserver.sh - run local zensical http server to develop docs
@@ -111,35 +183,38 @@ Latest changes
     * Still are some patches not yet adapted for Fritzos 8.2x + 8.5x
 
   - Packages:
-    * ACME.sh 3.1.4
+    * ACME.sh 3.1.6
     * Apache2 2.4.68
     * Atop 2.13.0
     * Bftpd 6.6
-    * BIND 9.11.37/9.20.24
+    * BIND 9.11.37/9.20.29
     * Binutils 2.46.0
     * BusyBox 1.27.2/1.38.0
-    * CA-bundle 2026-08-13
-    * CCID 1.8.2
+    * CA-bundle 2026-09-25
+    * CCID 1.8.4
     * Curl 8.12.1/8.22.0
     * davfs2 1.5.2/1.7.3
     * Dnsmasq 2.80/2.93
     * Dropbear 2026.94
     * dtc 1.8.1
     * file 5.48
+    * Fontconfig 2.17.1/2.18.3
     * Git 2.26.2/2.55.0
-    * HAProxy 2.6.29
+    * HAProxy 2.6.33
     * htop 1.0.3/3.5.3
     * htpdate 2.0.2
     * ImageMagick 7.1.0-62/7.1.2-31
     * iPerf3 3.3/3.21
+    * Iptables 1.4.11.1/1.4.21/1.6.2/1.8.13
     * jq 1.8.2
     * juis_bearer 1.0
     * juis_check 1.4
     * LCD4linux 63fffafb
-    * Iptables 1.4.11.1/1.4.21/1.6.2/1.8.13
     * ldd 0.1/1.0.59
     * Lighttpd 1.4.85
     * ltrace 0.7.3-git/0.8.1
+    * Lua 5.1.5/5.4.9
+    * Lynx 2.9.3
     * mini-snmpd 1.7/2.1
     * Minicom 2.11.1
     * Mosquitto 2.0.23/2.1.2
@@ -147,29 +222,31 @@ Latest changes
     * Nmap 4.76/5.51/7.991
     * OpenSSH 9.3p2/10.5p1
     * OpenSSL 0.9.8zh/1.0.2u/1.1.1w/3.0.22/3.5.8
-    * OpenVPN 2.4.12/2.5.11/2.6.22/2.7.7
+    * OpenVPN 2.4.12/2.5.11/2.6.23/2.7.7
     * PatchELF 0.19.1
-    * PCSC-lite 1.9.5/2.5.1
-    * PHP 5.6.40/8.2.33/8.3.33/8.4.25/8.5.10
+    * PCSC-lite 1.9.5/2.5.2
+    * PHP 5.6.40/8.2.33/8.3.35/8.4.26/8.5.11
     * procps-ng 4.0.6
     * Python 3.14.3
     * RRDtool 1.2.30/1.11.0
     * radvd 1.9.3/2.21
-    * rsync 3.4.1/3.5.0
+    * rsync 3.4.1/3.5.1
+    * Screen 4.9.1/5.0.2
     * Smartmontools 7.2/7.5
+    * socat 1.8.1.3
     * sslh 2.2.4/2.3.1
     * strace 4.9/5.0/7.2
-    * Stunnel 5.80
+    * Stunnel 5.82
     * SQLite 3.40.1/3.53.4
     * tinc 1.0.37/1.1pre18
     * Tinyproxy 1.11.3
     * tmux 3.7c
-    * Tor 0.4.8.25/0.4.9.12
+    * Tor 0.4.8.25/0.4.9.13
     * Transmission 3.00/4.1.3
     * Tree 1.8.0/2.3.2
-    * uMurmur 0.2.20/0.5.0
-    * Unbound 1.26.0
-    * UnRAR 6.1.7/7.2.5
+    * uMurmur 0.2.20/0.5.1
+    * Unbound 1.26.1
+    * UnRAR 6.1.7/7.3.1
     * Virtualip-NG 1.0
     * wireguard-tools 1.0.20260223
     * Whois 5.6.6
@@ -177,24 +254,28 @@ Latest changes
     * XZ 5.8.4
 
   - Libraries:
-    * expat 2.7.5/2.8.4
+    * cairo 1.18.6
+    * expat 2.7.5/2.8.5
     * FreeType 2.14.3
+    * fribidi 1.0.17
     * gettext 1.0
-    * GLib2 2.32.4/2.88.3
-    * harfbuzz 14.4.0
+    * GLib2 2.32.4/2.90.0
+    * harfbuzz 14.5.0
     * libcap 2.49/2.78
-    * libcap-ng 0.9.3
+    * libcap-ng 0.9.6
     * libcjson 1.7.19
     * libdeflate 1.26
     * libevent 2.1.13
     * libexif 0.6.26
     * libffi 3.8.0
-    * libmaxminddb 1.14.0
+    * libmaxminddb 1.14.1
+    * libonig 6.9.10
     * libpcap 1.1.1/1.10.7
     * libpng 1.6.58
+    * libtirpc 1.3.8
     * libusb(-compat) 0.1.12/0.1.9
     * libusb1 1.0.23/1.0.30
-    * libuv 1.44.2/1.52.1
+    * libuv 1.44.2/1.53.0
     * libxml2 2.15.4
     * libzip 1.11.4
     * MbedTLS 2.7.19/2.28.10/3.6.7
@@ -205,7 +286,7 @@ Latest changes
     * pcre2 10.48
 
   - Firmware updates:
-    * Please see [FIRMWARES](FIRMWARES.md) for the list of currently supported devices and firmwares.
+    * Please see [FIRMWARES](https://github.com/Freetz-NG/freetz-ng/blob/ng26090/docs/FIRMWARES.md) for the list of supported devices and firmwares.
 
 ### ng26020
 
