@@ -137,7 +137,11 @@ jobs:
           test -s "dl/fw/$IMAGE"
 
       - name: Firmware bauen
-        run: make -j"$(nproc)"
+        shell: bash
+        run: |
+          set -o pipefail
+          make -j"$(nproc)" 2>&1 | tee /tmp/freetz-build.log
+
 
       - name: Ergebnis finden
         id: find_image
@@ -157,4 +161,39 @@ jobs:
           name: ${{ steps.find_image.outputs.image_name }}
           path: ${{ steps.find_image.outputs.image_path }}
           if-no-files-found: error
+          retention-days: 14
+
+      - name: Diagnosebericht erstellen
+        if: always() && github.ref_name == 'labor'
+        shell: bash
+        env:
+          JOB_STATUS: ${{ job.status }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          COMMIT_SHA: ${{ github.sha }}
+        run: |
+          mkdir -p diagnostics
+          {
+            echo "status=$JOB_STATUS"
+            echo "run=$RUN_URL"
+            echo "commit=$COMMIT_SHA"
+            echo "device=FRITZ!Box 6850 5G V1"
+            echo "firmware=FRITZ!OS 8.40 Labor 136254"
+            echo "celllock=enabled"
+          } > diagnostics/result.txt
+          if [ -f /tmp/freetz-build.log ]; then
+            tail -n 1500 /tmp/freetz-build.log > diagnostics/build-tail.log
+            grep -Ein 'error:|fatal:|undefined version|no rule to make target|failed|traceback' /tmp/freetz-build.log | tail -n 120 > diagnostics/errors.txt || true
+          fi
+          if [ -f .config ]; then
+            grep -E '^(FREETZ_TYPE_6850_5G_V1|FREETZ_TYPE_FIRMWARE_08_5X_LABOR|FREETZ_PACKAGE_CELLLOCK|FREETZ_TARGET_GCC_VERSION|FREETZ_KERNEL_VERSION|FREETZ_GNULIBATOMIC_VERSION|FREETZ_GNULIBSTDCXX_VERSION)=' .config > diagnostics/config-selection.txt || true
+          fi
+          cat diagnostics/result.txt
+
+      - name: Diagnosebericht hochladen
+        if: always() && github.ref_name == 'labor'
+        uses: actions/upload-artifact@v4
+        with:
+          name: freetz-build-diagnostics
+          path: diagnostics/
+          if-no-files-found: warn
           retention-days: 14
