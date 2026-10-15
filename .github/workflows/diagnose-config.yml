@@ -1,0 +1,57 @@
+name: Diagnose Freetz 8.40 Labor Config
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [labor]
+    paths:
+      - '.github/workflows/diagnose-config.yml'
+
+jobs:
+  compare-configs:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Freetz prerequisites
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential subversion git libncurses5-dev zlib1g-dev gawk flex quilt libssl-dev xsltproc libxml-parser-perl mercurial bzr ecj cvs unzip patch bison wget python3 rsync gettext autopoint texinfo help2man m4 cpio tar findutils file libc6-dev-i386 lib32stdc++6 curl libtool libelf-dev libacl1-dev libcap-dev libgnutls28-dev
+          tools/prerequisites install || true
+          tools/prerequisites check
+      - name: Compare committed and fresh minimal configuration
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p config-diagnostics
+          cp .config config-diagnostics/committed.config
+          make olddefconfig </dev/null
+          cp .config config-diagnostics/normalized.config
+          cp config-diagnostics/committed.config .config
+          # Minimal seed: only the device, firmware and expert visibility.
+          cat > .config <<'EOF'
+          FREETZ_TYPE_6850_5G_V1=y
+          FREETZ_SHOW_EXPERT=y
+          FREETZ_TYPE_FIRMWARE_08_5X_LABOR=y
+          EOF
+          make olddefconfig </dev/null
+          cp .config config-diagnostics/fresh-minimal.config
+          diff -u config-diagnostics/committed.config config-diagnostics/normalized.config > config-diagnostics/committed-vs-normalized.diff || true
+          diff -u config-diagnostics/fresh-minimal.config config-diagnostics/normalized.config > config-diagnostics/fresh-vs-normalized.diff || true
+          {
+            echo '# Selected symbols'
+            for f in config-diagnostics/*.config; do
+              echo "## $f"
+              grep -E '^(FREETZ_TYPE_6850_5G_V1|FREETZ_SHOW_EXPERT|FREETZ_TYPE_FIRMWARE_08_5X_LABOR|FREETZ_LIB_libatomic|FREETZ_GNULIBATOMIC_VERSION|FREETZ_TARGET_GCC_VERSION|FREETZ_KERNEL_VERSION|FREETZ_TYPE_FIRMWARE_FINAL)=' "$f" || true
+            done
+            echo '# Line counts'
+            wc -l config-diagnostics/*.config
+          } | tee config-diagnostics/summary.txt
+      - name: Upload comparison
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: freetz-840-config-comparison
+          path: config-diagnostics/
+          if-no-files-found: warn
+          retention-days: 14
