@@ -65,6 +65,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          exec > >(tee /tmp/freetz-config.log) 2>&1
           # Generate a complete vanilla configuration first. Freetz derives
           # toolchain versions from the device/firmware metadata.
           cat > .config <<'EOF'
