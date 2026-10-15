@@ -142,6 +142,12 @@ jobs:
           test -n "$IMAGE_PATH"
           unzip -p /tmp/6850-labor.zip "$IMAGE_PATH" > "dl/fw/$IMAGE"
           test -s "dl/fw/$IMAGE"
+          # Freetz derives DL_IMAGE from FREETZ_DL_SOURCE, not from files in dl/fw.
+          # For this manually supplied Labor image, explicitly bind that source.
+          echo "FREETZ_DL_SOURCE=\"$IMAGE\"" >> .config
+          echo 'FREETZ_DL_SITE=""' >> .config
+          make -s olddefconfig </dev/null
+          make -s --eval='print-firmware-source:;@echo DL_IMAGE=$(DL_IMAGE)' print-firmware-source | grep -Fx "DL_IMAGE=dl/fw/$IMAGE"
 
       - name: Firmware bauen
         shell: bash
