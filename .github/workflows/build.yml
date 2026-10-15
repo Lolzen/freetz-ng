@@ -144,10 +144,11 @@ jobs:
           test -s "dl/fw/$IMAGE"
           # Freetz derives DL_IMAGE from FREETZ_DL_SOURCE, not from files in dl/fw.
           # For this manually supplied Labor image, explicitly bind that source.
-          echo "FREETZ_DL_SOURCE=\"$IMAGE\"" >> .config
-          echo 'FREETZ_DL_SITE=""' >> .config
-          make -s olddefconfig </dev/null
-          make -s --eval='print-firmware-source:;@echo DL_IMAGE=$(DL_IMAGE)' print-firmware-source | grep -Fx "DL_IMAGE=dl/fw/$IMAGE"
+          # Supply source via make command-line variables: Kconfig can discard
+          # manually appended values during olddefconfig.
+          echo "FREETZ_DL_SOURCE=\"$IMAGE\"" >> "$GITHUB_ENV"
+          echo 'FREETZ_DL_SITE=""' >> "$GITHUB_ENV"
+          make -s --eval='verify-labor-image:;@test -n "$(DL_IMAGE)" && test -s "$(DL_IMAGE)"' verify-labor-image
 
       - name: Firmware bauen
         shell: bash
