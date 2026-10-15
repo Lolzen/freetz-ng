@@ -80,7 +80,10 @@ jobs:
           # changing firmware branch; never copy package selections.
           baseline = Path('/tmp/freetz-vanilla.config').read_text().splitlines()
           selected = [line for line in baseline if re.match(
-              r'^FREETZ_(?:KERNEL_VERSION_[0-9]|TARGET_GCC_[0-9]|SEPARATE_AVM_UCLIBC|TARGET_UNSUPPORTED_VERSIONS)=y
+              r'^FREETZ_(?:KERNEL_VERSION_[0-9]|TARGET_GCC_[0-9]|SEPARATE_AVM_UCLIBC|TARGET_UNSUPPORTED_VERSIONS)=y$', line)]
+          lines += selected
+          lines += [
+              'FREETZ_SHOW_EXPERT=y',
               'FREETZ_TYPE_FIRMWARE_08_5X_LABOR=y',
               'FREETZ_PACKAGE_CELLLOCK=y',
           ]
