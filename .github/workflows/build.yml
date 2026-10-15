@@ -69,6 +69,15 @@ jobs:
           FREETZ_PACKAGE_CELLLOCK=y
           EOF
           timeout 5m make olddefconfig </dev/null
+          echo 'Checking toolchain/library metadata before downloading firmware:'
+          for symbol in FREETZ_TARGET_GCC_VERSION FREETZ_KERNEL_VERSION FREETZ_GNULIBATOMIC_VERSION FREETZ_GNULIBSTDCXX_VERSION; do
+            if ! grep -q "^${symbol}=" .config; then
+              echo "::error::Missing ${symbol} in Kconfig output; firmware metadata/toolchain selection is incomplete."
+              echo "Nearby selections:"
+              grep -E '^(FREETZ_TYPE_FIRMWARE_|FREETZ_AVM_VERSION_|FREETZ_TARGET_GCC_|FREETZ_KERNEL_VERSION_)' .config | head -n 55 || true
+              exit 1
+            fi
+          done
           echo 'Vanilla Labor and Celllock selection:'
           grep -E '^(FREETZ_TYPE_6850_5G_V1|FREETZ_TYPE_FIRMWARE_08_5X_LABOR|FREETZ_PACKAGE_CELLLOCK|FREETZ_GNULIBATOMIC_VERSION)=' .config || true
           for symbol in FREETZ_TYPE_6850_5G_V1 FREETZ_TYPE_FIRMWARE_08_5X_LABOR FREETZ_PACKAGE_CELLLOCK; do
