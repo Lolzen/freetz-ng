@@ -1,3 +1,19 @@
+choice
+
+	prompt "Version"
+		default FREETZ_LIB_ffmpeg_WITH_VERSION_CURRENT
+
+	config FREETZ_LIB_ffmpeg_WITH_VERSION_ABANDON
+		bool "5.1.10"
+
+	config FREETZ_LIB_ffmpeg_WITH_VERSION_CURRENT
+		bool "7.1.5"
+		depends on !FREETZ_TARGET_GCC_4_MAX
+		depends on !FREETZ_PACKAGE_MEDIATOMB
+		depends on !FREETZ_PACKAGE_MINIDLNA
+
+endchoice
+
 config FREETZ_LIB_libavcodec
 	bool "libavcodec.so"
 	default n

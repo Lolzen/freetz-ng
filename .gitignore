@@ -31,4 +31,5 @@
 # ignore ide project files
 /.project
 /.vs
+/.vscode
 

@@ -180,6 +180,12 @@ menu "Web Interface"
 		config FREETZ_TAGGING_NG
 			bool "Freetz-NG"
 			
+		config FREETZ_TAGGING_CUSTOM
+			bool "Custom"
+
+		config FREETZ_TAGGING_MODDED
+			bool "Modded"
+
 		config FREETZ_TAGGING_PIMPED
 			bool "Pimped"
 
@@ -195,6 +201,8 @@ menu "Web Interface"
 		depends on !FREETZ_TAGGING_NONE
 		default "cuma"          if FREETZ_TAGGING_CUMA
 		default "freetz-ng"     if FREETZ_TAGGING_NG
+		default "custom"        if FREETZ_TAGGING_CUSTOM
+		default "modded"        if FREETZ_TAGGING_MODDED
 		default "pimped"        if FREETZ_TAGGING_PIMPED
 
 	config FREETZ_WEBIF_LINK

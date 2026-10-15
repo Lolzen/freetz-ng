@@ -252,6 +252,8 @@ Currently supported devices and firmwares
 
   * __Fritz!Box 6825 4G (UNTESTED)__
     - 306.08.25 rev134130 {ALL} [Smart24 P2 NL1]
+  * __Fritz!Box 6835 5G (UNTESTED)__
+    - 313.08.40 rev136299 {ALL} [MyFRITZOS P1] (Inhaus)
 
   * __Fritz!Box 6840 LTE__
     - 105.06.30 rev31187 {GER}
@@ -339,13 +341,19 @@ Currently supported devices and firmwares
   * __Fritz!Box Fon WLAN 7270 v1__
     - 54.04.89 rev27422 {GER}
     - Alien 7270 v2 {GER+INT}
-  * __Fritz!Box Fon WLAN 7270 v2, v3__
-    - 54/74.05.23 rev27582 {GER} (Beta)
-    - 54/74.05.54 rev27373 {GER}
-    - 54/74.06.06 rev31461 {GER}
+  * __Fritz!Box Fon WLAN 7270 v2__
+    - 54.05.23 rev27582 {GER} (Beta)
+    - 54.05.54 rev27373 {GER}
+    - 54.06.06 rev31461 {GER}
     - Alien 7270 v1 {GER}
-    - 54/74.05.24 rev27630 {INT}
-    - 54/74.05.53 rev27445 {INT}
+    - 54.05.24 rev27630 {INT}
+    - 54.05.53 rev27445 {INT}
+  * __Fritz!Box Fon WLAN 7270 v3__
+    - 74.05.23 rev27582 {GER} (Beta)
+    - 74.05.54 rev27373 {GER}
+    - 74.06.06 rev31461 {GER}
+    - 74.05.24 rev27630 {INT}
+    - 74.05.53 rev27445 {INT}
 
   * __Fritz!Box Fon WLAN 7272__
     - 120.06.30 rev30889 {GER}
@@ -458,6 +466,7 @@ Currently supported devices and firmwares
     - 271.07.59 rev113715 {ALL} [MOVE21NL2]
     - 271.08.02 rev117988 {ALL} [Smart24 P1 NL1]
     - 271.08.26 rev134664 {ALL} [Smart24 P2 NL1]
+    - 271.08.40 rev136585 {ALL} [MyFRITZOS P1] (Inhaus)
   * __Fritz!Box Fon WLAN 7520__
     - 175.07.14 rev73182 {GER} [MESH18 NL4]
     - 175.07.29 rev92061 {ALL} [PSQ19P2NL4]
@@ -640,7 +649,7 @@ Currently supported devices and firmwares
     - 305.08.25 rev134317 {ALL} [Smart24 P2 NL1]
   * __Fritz!Repeater 1700 (UNTESTED)__
     - 290.08.07 rev128069 {ALL} [Smart24 P1 FCS]
-    - 290.08.24 rev135212 {ALL} [Smart24 P2 NL1] (Labor)
+    - 290.08.26 rev136867 {ALL} [Smart24 P2 NL1]
   * __Fritz!Repeater 2400__
     - 169.07.12 rev71975 {ALL} [MESH18 NL2]
     - 169.07.29 rev93265 {ALL} [PSQ19P2NL4]
@@ -648,7 +657,7 @@ Currently supported devices and firmwares
     - 169.08.25 rev132922 {ALL} [Smart24 P2 NL1]
   * __Fritz!Repeater 2700 (UNTESTED)__
     - 301.08.07 rev128070 {ALL} [Smart24 P1 FCS]
-    - 301.08.24 rev135213 {ALL} [Smart24 P2 NL1] (Labor)
+    - 301.08.26 rev136868 {ALL} [Smart24 P2 NL1]
   * __Fritz!Repeater 3000__
     - 174.07.04 rev66458 {ALL}
     - 174.07.14 rev73940 {ALL} [MESH18 NL4]

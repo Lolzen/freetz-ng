@@ -50,6 +50,13 @@ else
 KERNEL_COMMON_MAKE_OPTIONS += KBUILD_SYMTYPES=1
 endif
 endif
+# since kernel 4.2 extract-cert.c exists
+# it uses ENGINE_* symbols which are
+#  deprecated in openssl 3.5
+#  and removed in openssl 4.0
+ifeq ($(strip $(FREETZ_KERNEL_VERSION_4_4_MIN)),y)
+KERNEL_COMMON_MAKE_OPTIONS += HOSTCFLAGS="$(HOSTCFLAGS) -DOPENSSL_ENGINE_STUBS"
+endif
 
 KERNEL_VANILLA_SOURCE:=$(call qstrip,$(FREETZ_DL_KERNEL_VANILLA_SOURCE))
 KERNEL_VANILLA_HASH:=$(call qstrip,$(FREETZ_DL_KERNEL_VANILLA_HASH))
@@ -301,6 +308,7 @@ kernel-symrefs: kernel-recompile
 	find $(KERNEL_SOURCE_DIR) -name '*.symref' -printf '%P\n' | LANG=C sort | \
 	  $(TAR) -c  --owner=0 --group=0 --numeric-owner  --mtime='@0'  -C $(KERNEL_SOURCE_DIR)  -T - | \
 	  $(LZMA) e -si $(DL_DIR)/$(KERNEL_SYMREFS_SOURCE) -d25
+	@touch -d "2014-06-03 12:00:00.000000000 +0200" "$(DL_DIR)/$(KERNEL_SYMREFS_SOURCE)"
 	@ln -sf "$(DL_DIR)/$(KERNEL_SYMREFS_SOURCE)"
 	@echo
 	@du -h "$(DL_DIR)/$(KERNEL_SYMREFS_SOURCE)"
