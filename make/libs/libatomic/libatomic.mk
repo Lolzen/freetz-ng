@@ -1,4 +1,4 @@
-$(call PKG_INIT_LIB,$(call qstrip,$(FREETZ_GNULIBATOMIC_VERSION)),libatomic)
+$(call PKG_INIT_LIB, $(call qstrip,$(FREETZ_GNULIBATOMIC_VERSION)))
 ### VERSION:=1.0.0/1.1.0/1.2.0
 ### STEWARD:=fda77
 
