@@ -8,6 +8,11 @@ on:
     paths:
       - '.config'
       - '.github/workflows/build.yml'
+      - 'scripts/auto_repair.py'
+
+permissions:
+  contents: write
+  actions: write
 
 jobs:
   build:
@@ -197,3 +202,14 @@ jobs:
           path: diagnostics/
           if-no-files-found: warn
           retention-days: 14
+
+      - name: OpenAI-Reparatur bei fehlgeschlagenem Build
+        if: failure() && github.ref_name == 'labor'
+        continue-on-error: true
+        timeout-minutes: 8
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          OPENAI_REPAIR_MODEL: gpt-5.4
+        run: |
+          python3 scripts/auto_repair.py
