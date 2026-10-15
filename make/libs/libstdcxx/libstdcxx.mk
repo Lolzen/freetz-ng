@@ -1,3 +1,4 @@
+ifneq ($(strip $(FREETZ_GNULIBSTDCXX_VERSION)),)
 $(call PKG_INIT_LIB,$(call qstrip,$(FREETZ_GNULIBSTDCXX_VERSION)),libstdcxx)
 ### VERSION:=6.0.16/6.0.17/6.0.19/6.0.20/6.0.21/6.0.25/6.0.28/6.0.32/6.0.33/6.0.34
 ### STEWARD:=fda77
@@ -26,3 +27,5 @@ $(pkg)-uninstall:
 
 $(PKG_FINISH)
 
+
+endif # FREETZ_GNULIBSTDCXX_VERSION
