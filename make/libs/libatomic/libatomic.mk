@@ -1,3 +1,6 @@
+# An unselected libatomic has no version in minimal Labor configurations.
+# Do not initialize an unconfigured library during global makefile parsing.
+ifneq ($(strip $(FREETZ_GNULIBATOMIC_VERSION)),)
 $(call PKG_INIT_LIB, $(call qstrip,$(FREETZ_GNULIBATOMIC_VERSION)))
 ### VERSION:=1.0.0/1.1.0/1.2.0
 ### STEWARD:=fda77
@@ -25,4 +28,4 @@ $(pkg)-uninstall:
 	$(RM) $(LIBATOMIC_TARGET_DIR)/libatomic.so*
 
 $(PKG_FINISH)
-
+endif # FREETZ_GNULIBATOMIC_VERSION
