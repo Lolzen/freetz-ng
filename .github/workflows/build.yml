@@ -81,7 +81,7 @@ jobs:
               'FREETZ_TYPE_FIRMWARE_08_5X_LABOR=y',
               'FREETZ_PACKAGE_CELLLOCK=y',
           ]
-          p.write_text('\\n'.join(lines) + '\\n')
+          p.write_text('\n'.join(lines) + '\n')
           PY
           timeout 5m make olddefconfig </dev/null
           echo 'Versions in vanilla vs Labor:'
