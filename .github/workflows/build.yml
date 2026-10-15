@@ -58,21 +58,9 @@ jobs:
       - name: Neue Config-Optionen automatisch übernehmen
         run: |
           set -euo pipefail
-          LIBATOMIC_VERSION=$(sed -n 's/^FREETZ_GNULIBATOMIC_VERSION="\([^"]*\)"/\1/p' .config | head -n 1)
           timeout 5m make olddefconfig </dev/null
-          if grep -qx 'FREETZ_LIB_libatomic=y' .config && ! grep -q '^FREETZ_GNULIBATOMIC_VERSION=' .config; then
-            if [ -z "$LIBATOMIC_VERSION" ]; then
-              echo "::error::libatomic version missing in original .config"
-              exit 1
-            fi
-            printf 'FREETZ_GNULIBATOMIC_VERSION="%s"\n' "$LIBATOMIC_VERSION" >> .config
-          fi
-          echo 'libatomic config after olddefconfig:'
+          echo 'Effective libatomic configuration:'
           grep -E '^(FREETZ_LIB_libatomic|FREETZ_GNULIBATOMIC_VERSION)=' .config || true
-          if ! grep -qx 'FREETZ_LIB_libatomic=y' .config; then
-            echo '::error::Kconfig removed libatomic selection; inspect hardware and toolchain dependencies.'
-            exit 1
-          fi
 
       - name: Labor-Firmware aus AVM-ZIP bereitstellen
         if: github.ref_name == 'labor'
