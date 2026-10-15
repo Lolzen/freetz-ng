@@ -4,9 +4,10 @@ name: Build Freetz-NG Firmware
 on:
   workflow_dispatch:
   push:
-    branches: [ main ]
+    branches: [ main, labor ]
     paths:
       - '.config'
+      - '.github/workflows/build.yml'
 
 jobs:
   build:
@@ -55,7 +56,20 @@ jobs:
             freetz-ng-${{ runner.os }}-
 
       - name: Neue Config-Optionen automatisch übernehmen
-        run: yes "" | make oldconfig
+        run: timeout 5m make olddefconfig </dev/null
+
+      - name: Labor-Firmware aus AVM-ZIP bereitstellen
+        if: github.ref_name == 'labor'
+        run: |
+          set -euo pipefail
+          ZIP_URL="https://download.avm.de/labor_einstieg/fritzbox-6850_5g-labor-136254.zip"
+          IMAGE="FRITZ.Box_6850_5G-08.40-136254-LabBETA.image"
+          mkdir -p dl/fw
+          curl --fail --location --retry 3 --output /tmp/6850-labor.zip "$ZIP_URL"
+          IMAGE_PATH=$(unzip -Z -1 /tmp/6850-labor.zip | grep -E "(^|/)${IMAGE}$" | head -n 1)
+          test -n "$IMAGE_PATH"
+          unzip -p /tmp/6850-labor.zip "$IMAGE_PATH" > "dl/fw/$IMAGE"
+          test -s "dl/fw/$IMAGE"
 
       - name: Firmware bauen
         run: make -j"$(nproc)"
