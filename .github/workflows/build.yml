@@ -60,15 +60,32 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          # No legacy .config or package selections are imported.
+          # Generate a complete vanilla configuration first. Freetz derives
+          # toolchain versions from the device/firmware metadata.
           cat > .config <<'EOF'
           FREETZ_SERIES_5=y
           FREETZ_TYPE_6850_5G_V1=y
-          FREETZ_SHOW_EXPERT=y
-          FREETZ_TYPE_FIRMWARE_08_5X_LABOR=y
-          FREETZ_PACKAGE_CELLLOCK=y
           EOF
           timeout 5m make olddefconfig </dev/null
+          cp .config /tmp/freetz-vanilla.config
+          # Switch only the firmware choice and enable custom Celllock.
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          p = Path('.config')
+          lines = p.read_text().splitlines()
+          lines = [line for line in lines if not re.match(
+              r'^(?:# )?FREETZ_TYPE_FIRMWARE_(?:07_|08_|FINAL|LABOR)', line)]
+          lines += [
+              'FREETZ_SHOW_EXPERT=y',
+              'FREETZ_TYPE_FIRMWARE_08_5X_LABOR=y',
+              'FREETZ_PACKAGE_CELLLOCK=y',
+          ]
+          p.write_text('\\n'.join(lines) + '\\n')
+          PY
+          timeout 5m make olddefconfig </dev/null
+          echo 'Versions in vanilla vs Labor:'
+          diff -u <(grep -E '^FREETZ_(TARGET_GCC_VERSION|KERNEL_VERSION|GNULIBATOMIC_VERSION|GNULIBSTDCXX_VERSION)=' /tmp/freetz-vanilla.config || true) <(grep -E '^FREETZ_(TARGET_GCC_VERSION|KERNEL_VERSION|GNULIBATOMIC_VERSION|GNULIBSTDCXX_VERSION)=' .config || true) || true
           echo 'Checking toolchain/library metadata before downloading firmware:'
           for symbol in FREETZ_TARGET_GCC_VERSION FREETZ_KERNEL_VERSION FREETZ_GNULIBATOMIC_VERSION FREETZ_GNULIBSTDCXX_VERSION; do
             if ! grep -q "^${symbol}=" .config; then
