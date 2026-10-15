@@ -52,12 +52,15 @@ def main():
         print("Branch advanced since build started; skip repair.")
         return 0
 
-    log = pathlib.Path("/tmp/freetz-build.log")
-    diagnostic = log.read_text(errors="replace")[-32000:] if log.exists() else (
-        "Build failed before make. Inspect workflow logs manually; no automatic patch.")
-    if not log.exists():
-        print(diagnostic)
+    logs = []
+    for name in ("/tmp/freetz-config.log", "/tmp/freetz-build.log"):
+        path = pathlib.Path(name)
+        if path.exists():
+            logs.append(f"LOG {name}:\\n" + path.read_text(errors="replace")[-28000:])
+    if not logs:
+        print("No captured configuration or build log; skipping ungrounded repair.")
         return 0
+    diagnostic = "\n\n".join(logs)[-48000:]
 
     # Supply focused source context, not a full repository or secrets.
     files = [
