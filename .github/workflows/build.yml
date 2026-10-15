@@ -56,7 +56,56 @@ jobs:
             freetz-ng-${{ runner.os }}-
 
       - name: Neue Config-Optionen automatisch übernehmen
-        run: timeout 5m make olddefconfig </dev/null
+        run: |
+          set -euo pipefail
+          # Keep the libatomic ABI version selected in the committed configuration.
+          LIBATOMIC_VERSION=$(sed -n 's/^FREETZ_GNULIBATOMIC_VERSION="\([^"]*\)"/\1/p' .config | head -n 1)
+          timeout 5m make olddefconfig </dev/null
+          if grep -qx 'FREETZ_LIB_libatomic=y' .config && ! grep -q '^FREETZ_GNULIBATOMIC_VERSION="[^"]\+"
+
+      - name: Labor-Firmware aus AVM-ZIP bereitstellen
+        if: github.ref_name == 'labor'
+        run: |
+          set -euo pipefail
+          ZIP_URL="https://download.avm.de/labor_einstieg/fritzbox-6850_5g-labor-136254.zip"
+          IMAGE="FRITZ.Box_6850_5G-08.40-136254-LabBETA.image"
+          mkdir -p dl/fw
+          curl --fail --location --retry 3 --output /tmp/6850-labor.zip "$ZIP_URL"
+          IMAGE_PATH=$(unzip -Z -1 /tmp/6850-labor.zip | grep -E "(^|/)${IMAGE}$" | head -n 1)
+          test -n "$IMAGE_PATH"
+          unzip -p /tmp/6850-labor.zip "$IMAGE_PATH" > "dl/fw/$IMAGE"
+          test -s "dl/fw/$IMAGE"
+
+      - name: Firmware bauen
+        run: make -j"$(nproc)"
+
+      - name: Ergebnis finden
+        id: find_image
+        run: |
+          IMAGE_PATH=$(find images -type f \( -iname "*.image" -o -iname "*.bin" \) | head -n 1)
+          if [ -z "$IMAGE_PATH" ]; then
+            echo "::error::Kein Firmware-Image im images/ Ordner gefunden."
+            exit 1
+          fi
+          echo "image_path=$IMAGE_PATH" >> "$GITHUB_OUTPUT"
+          echo "image_name=$(basename "$IMAGE_PATH")" >> "$GITHUB_OUTPUT"
+
+      - name: Firmware als Artifact hochladen
+        uses: actions/upload-artifact@v4
+        with:
+          # Artifact heißt jetzt genauso wie die gebaute Image-Datei
+          name: ${{ steps.find_image.outputs.image_name }}
+          path: ${{ steps.find_image.outputs.image_path }}
+          if-no-files-found: error
+          retention-days: 14
+ .config; then
+            if [ -z "$LIBATOMIC_VERSION" ]; then
+              echo "::error::libatomic is enabled but its ABI version is missing."
+              exit 1
+            fi
+            printf 'FREETZ_GNULIBATOMIC_VERSION="%s"\n' "$LIBATOMIC_VERSION" >> .config
+          fi
+          grep -E '^(FREETZ_LIB_libatomic|FREETZ_GNULIBATOMIC_VERSION)=' .config || true
 
       - name: Labor-Firmware aus AVM-ZIP bereitstellen
         if: github.ref_name == 'labor'
