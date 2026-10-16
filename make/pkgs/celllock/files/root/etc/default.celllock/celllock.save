@@ -18,6 +18,6 @@ pkg_post_save() {
       ''|refresh) return 0 ;;
       *) echo "Unsupported action"; return 0 ;;
     esac
-    response=$( { timeout 3 cat "$device" 2>/dev/null & reader=$!; sleep 0.2; printf '%s\r\n' "$command" > "$device"; wait "$reader" 2>/dev/null; } )
+    response=$( { timeout 3 cat "$device" 2>/dev/null & reader=$!; sleep 1; printf '%s\r\n' "$command" > "$device"; wait "$reader" 2>/dev/null; } )
     echo "AT response: ${response:-No response}"
 }
