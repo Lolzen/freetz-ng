@@ -1,0 +1,23 @@
+#!/bin/sh
+pkg_post_save() {
+    . /mod/etc/conf/celllock.cfg
+    local device=/dev/ttyUSB2 command response reader
+    [ -c "$device" ] || { echo "AT port missing"; return 0; }
+    case "$CELLLOCK_ACTION" in
+      lock_5g)
+        for v in "$CELLLOCK_PCI" "$CELLLOCK_ARFCN" "$CELLLOCK_SCS" "$CELLLOCK_BAND"; do
+            case "$v" in ''|*[!0-9]*) echo "Invalid numeric value"; return 0 ;; esac
+        done
+        [ "$CELLLOCK_PCI" -le 1007 ] && [ "$CELLLOCK_ARFCN" -gt 0 ] &&
+        [ "$CELLLOCK_BAND" -ge 1 ] && [ "$CELLLOCK_BAND" -le 261 ] ||
+          { echo "PCI, ARFCN or band out of range"; return 0; }
+        case "$CELLLOCK_SCS" in 15|30|60|120) ;; *) echo "Invalid SCS"; return 0 ;; esac
+        command="AT+QNWLOCK=\"common/5g\",${CELLLOCK_PCI},${CELLLOCK_ARFCN},${CELLLOCK_SCS},${CELLLOCK_BAND}"
+        ;;
+      unlock_5g) command='AT+QNWLOCK="common/5g",0,0,0,0' ;;
+      ''|refresh) return 0 ;;
+      *) echo "Unsupported action"; return 0 ;;
+    esac
+    response=$( { timeout 3 cat "$device" 2>/dev/null & reader=$!; sleep 0.2; printf '%s\r\n' "$command" > "$device"; wait "$reader" 2>/dev/null; } )
+    echo "AT response: ${response:-No response}"
+}
