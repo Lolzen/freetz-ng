@@ -9,6 +9,7 @@ on:
       - '.config'
       - '.github/workflows/build.yml'
       - 'scripts/auto_repair.py'
+      - 'make/pkgs/celllock/**'
 
 permissions:
   contents: write
