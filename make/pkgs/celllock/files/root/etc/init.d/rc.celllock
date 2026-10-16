@@ -4,11 +4,11 @@
 # and embeds /mod/usr/lib/cgi-bin/celllock.cgi in its page layout.
 
 case "$1" in
-    ""|load)
+    ""|load|start|restart|reload|config)
         modreg pkg celllock '5G Celllock'
         modreg conf celllock _index 'Celllock'
         ;;
-    unload)
+    unload|stop)
         modunreg conf celllock
         modunreg pkg celllock
         ;;
