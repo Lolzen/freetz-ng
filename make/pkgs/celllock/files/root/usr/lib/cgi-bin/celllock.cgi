@@ -10,13 +10,10 @@ query_at() {
 }
 SERVING=$(query_at 'AT+QENG="servingcell"')
 LOCK5G=$(query_at 'AT+QNWLOCK="common/5g"')
-ROW=$(printf '%s\n' "$SERVING" | grep 'QENG:.*servingcell.*NR5G' | head -n 1)
-PCI=$(printf '%s\n' "$ROW" | awk -F, '{gsub(/[^0-9]/,"",$8);print $8}')
-ARFCN=$(printf '%s\n' "$ROW" | awk -F, '{gsub(/[^0-9]/,"",$10);print $10}')
-BAND=$(printf '%s\n' "$ROW" | awk -F, '{gsub(/[^0-9]/,"",$11);print $11}')
-[ -n "$CELLLOCK_PCI" ] && PCI=$CELLLOCK_PCI
-[ -n "$CELLLOCK_ARFCN" ] && ARFCN=$CELLLOCK_ARFCN
-[ -n "$CELLLOCK_BAND" ] && BAND=$CELLLOCK_BAND
+# Fixed, user-requested defaults; live serving-cell data is shown above only.
+PCI=0
+ARFCN=639936
+BAND=78
 sec_begin 'Aktuelle Funkzelle'
 echo '<h4>Serving Cell</h4><pre>'
 printf '%s\n' "${SERVING:-Keine Antwort vom Modem}" | html
@@ -26,7 +23,7 @@ echo '</pre>'
 sec_end
 sec_begin '5G Cell Lock'
 cat <<EOF
-<p>Die Werte werden nach Moeglichkeit aus der Funkzelle uebernommen. Ein Lock kann die Verbindung unterbrechen.</p>
+<p>Voreingestellt: PCI 0, NR-ARFCN 639936, SCS 30 kHz und Band 78. Vor dem Setzen pruefen: Ein Lock kann die Verbindung unterbrechen.</p>
 <input type="hidden" id="celllock_action" name="action" value="">
 <table>
 <tr><td>PCI (0-1007)</td><td><input type="number" name="pci" min="0" max="1007" value="$(html "$PCI")"></td></tr>
