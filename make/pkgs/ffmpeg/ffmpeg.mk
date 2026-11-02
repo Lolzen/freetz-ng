@@ -74,6 +74,11 @@ $(PKG)_CONFIGURE_OPTIONS += --disable-inline-asm
 # {standard input}:31: Error: opcode not supported on this processor: mips32r2 (mips32r2) `dmult $2,$3'
 # {standard input}:33: Error: opcode not supported on this processor: mips32r2 (mips32r2) `dsrl $2,$2,32'
 endif
+ifeq ($(strip $(FREETZ_TARGET_ARCH_X86)),y)
+$(PKG)_CONFIGURE_OPTIONS += --disable-inline-asm
+# error: 'asm' operand has impossible constraints
+#     __asm__ volatile(
+endif
 
 $(PKG)_CONFIGURE_OPTIONS += --target-os=linux
 $(PKG)_CONFIGURE_OPTIONS += --prefix="/usr"

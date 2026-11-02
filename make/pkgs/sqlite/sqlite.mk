@@ -1,13 +1,13 @@
-$(call PKG_INIT_BIN, $(if $(FREETZ_LIB_libsqlite3_WITH_VERSION_ABANDON),3400100,3530400))
-$(PKG)_LIB_VERSION:=$(if $(FREETZ_LIB_libsqlite3_WITH_VERSION_ABANDON),0.8.6,3.53.4)
+$(call PKG_INIT_BIN, $(if $(FREETZ_LIB_libsqlite3_WITH_VERSION_ABANDON),3400100,3540100))
+$(PKG)_LIB_VERSION:=$(if $(FREETZ_LIB_libsqlite3_WITH_VERSION_ABANDON),0.8.6,3.54.1)
 $(PKG)_SOURCE:=$(pkg)-autoconf-$($(PKG)_VERSION).tar.gz
 $(PKG)_HASH_ABANDON:=2c5dea207fa508d765af1ef620b637dcb06572afa6f01f0815bd5bbf864b33d9
-$(PKG)_HASH_CURRENT:=0e9483900e92cd5de8fd48d16bf9200145a61f7fd5be542a5ac81d8a9516eb9c
+$(PKG)_HASH_CURRENT:=926ef8d3eab93fbf6e06011901273eec076b25594a4e1cdadd50c987f4f6d64e
 $(PKG)_HASH:=$($(PKG)_HASH_$(if $(FREETZ_LIB_libsqlite3_WITH_VERSION_ABANDON),ABANDON,CURRENT))
 $(PKG)_SITE_ABANDON:=https://www.sqlite.org/2022
 $(PKG)_SITE_CURRENT:=https://www.sqlite.org/2026
 $(PKG)_SITE:=$($(PKG)_SITE_$(if $(FREETZ_LIB_libsqlite3_WITH_VERSION_ABANDON),ABANDON,CURRENT))
-### VERSION:=3.40.1/3.53.4
+### VERSION:=3.40.1/3.54.1
 ### WEBSITE:=https://www.sqlite.org
 ### MANPAGE:=https://www.sqlite.org/docs.html
 ### CHANGES:=https://www.sqlite.org/changes.html

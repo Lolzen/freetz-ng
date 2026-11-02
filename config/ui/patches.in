@@ -1018,6 +1018,19 @@ config FREETZ_REMOVE_UPNP_LIBS
 	depends on FREETZ_REMOVE_UPNP
 	default n
 
+config FREETZ_REMOVE_ASSETSD
+	bool "Remove ASSETSD (assets downloader)"
+	depends on FREETZ_AVM_HAS_ASSETSD
+	default n
+	help
+		Remove assetsd (assets downloader) files
+		At least you can no longer download and update:
+		 - AVM IP-Sperrliste with eg ExpressVPN and egypt providers
+		   Vacation in Egypt?
+		   Unfortunately, no access to your Fritzbox!
+		   Not even if you chose wrong VPN provider.
+		 - Secret and unverifiable german BPjM-Sperrliste
+
 config FREETZ_REMOVE_KIDS
 	bool "Remove kids (usermand/contfiltd)"
 	depends on FREETZ_AVM_HAS_KIDS

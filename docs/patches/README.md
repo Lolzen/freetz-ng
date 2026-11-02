@@ -11,6 +11,9 @@ Index: [A](#a) - [B](#b) - [C](#c) - [D](#d) - [E](#e) - [F](#f) - [G](#g) - [H]
   * **<u>Remove Annex B firmware</u><a id='remove-annex-b-firmware'></a>**<br>
     Remove lib/modules/dsp_*/*-B-dsl.bin. This saves about 330-400 KB of uncompressed data size.
 
+  * **<u>Remove ASSETSD (assets downloader)</u><a id='remove-assetsd'></a>**<br>
+    Remove assetsd (assets downloader) files At least you can no longer download and update: - AVM IP-Sperrliste with eg ExpressVPN and egypt providers Vacation in Egypt? Unfortunately, no access to your Fritzbox! Not even if you chose wrong VPN provider. - Secret and unverifiable german BPjM-Sperrliste
+
   * **[Remove assistant (wizard)](REMOVE_ASSISTANT.md)<a id='remove-assistant'></a>**<br>
     Removes the installation assistant from the web menu.
 

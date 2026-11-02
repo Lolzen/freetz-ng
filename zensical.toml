@@ -16,8 +16,8 @@ generator = false
 [project.theme]
 variant = "classic"
 
-favicon = "screenshots/000-TAG_freetz-ng.png"
-logo = "screenshots/000-TAG_freetz-ng.png"
+favicon = "favicon.ico"
+logo = "zensical.png"
 language = "en"
 
 features = [

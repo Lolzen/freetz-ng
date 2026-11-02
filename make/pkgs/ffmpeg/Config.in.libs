@@ -9,8 +9,6 @@ choice
 	config FREETZ_LIB_ffmpeg_WITH_VERSION_CURRENT
 		bool "7.1.5"
 		depends on !FREETZ_TARGET_GCC_4_MAX
-		depends on !FREETZ_PACKAGE_MEDIATOMB
-		depends on !FREETZ_PACKAGE_MINIDLNA
 
 endchoice
 

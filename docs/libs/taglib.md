@@ -1,4 +1,7 @@
-# taglib (libtag.so) 1.6.3
+# taglib (libtag.so) - DEPRECATED 1.6.3
+  - Homepage: [https://taglib.org/](https://taglib.org/)
+  - Changelog: [https://github.com/taglib/taglib/releases](https://github.com/taglib/taglib/releases)
+  - Repository: [https://github.com/taglib/taglib](https://github.com/taglib/taglib)
   - Library: [master/make/libs/taglib/](https://github.com/Freetz-NG/freetz-ng/tree/master/make/libs/taglib/)
   - Steward: -
 

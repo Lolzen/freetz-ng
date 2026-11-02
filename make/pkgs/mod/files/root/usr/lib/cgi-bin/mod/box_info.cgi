@@ -27,7 +27,8 @@ getNetworkInfo() {
 	done
 }
 
-ubootversion="$(cat /sys/firmware/devicetree/base/uboot-version 2>/dev/null)"
+[ -z "$ubootversion" ] && ubootversion="$(cat '/sys/firmware/devicetree/base/uboot-version' 2>/dev/null)"
+[ -z "$ubootversion" ] && ubootversion="$(cat '/sys/firmware/devicetree/base/chosen/u-boot,version' 2>/dev/null)"
 if [ -r /var/env ]; then
 	while read -r key value; do
 		case $key in
@@ -96,7 +97,7 @@ fi
 _CONFIG_TFFS="$(echo $CONFIG_ROMSIZE | sed -ne "s/^.*sflash_size=\([0-9BKMG]*\).*/\1/p" | sed -r 's/([0-9]*)/\1 /' | grep -v '^0 ')"
 _CONFIG_NAND="$(echo $CONFIG_ROMSIZE | sed -ne   "s/^.*nand_size=\([0-9BKMG]*\).*/\1/p" | sed -r 's/([0-9]*)/\1 /' | grep -v '^0 ')"
 _CONFIG_EMMC="$(echo $CONFIG_ROMSIZE | sed -ne   "s/^.*emmc_size=\([0-9BKMG]*\).*/\1/p" | sed -r 's/([0-9]*)/\1 /' | grep -v '^0 ')"
-[ $(which run_clock) ] && run_clock=$(run_clock | sed 's/.*: //') && service_code=$(run_clock -S)
+[ $(which run_clock) ] && run_clock="$(run_clock | sed 's/.*: //')" && service_code="$(run_clock -S | sed 's/.* //')"
 reboot_status="$(cat /proc/sys/urlader/reboot_status 2>/dev/null)"
 
 if [ -e /sys/devices/system/cpu/cpu0/cpufreq/scaling_available_frequencies ]; then
@@ -110,10 +111,7 @@ else
 	[ -z "$_SYS_FRQ" ] && _SYS_FRQ="$(sed 's/000$//' /sys/devices/system/cpu/cpu1/cpufreq/cpuinfo_max_freq)"
 fi
 
-_CPU_TMP="$(sed -rn 's!^Channel .: ([0-9.]*) .*!\1!p' /proc/chip_temperature 2>/dev/null | sort -r | head -n1)"
-[ -z "$_CPU_TMP" ] && _CPU_TMP="$(sed 's/^../&./' /sys/devices/virtual/thermal/thermal_zone0/temp 2>/dev/null)"
-[ -z "$_CPU_TMP" ] && _CPU_TMP="$(sed 's/ .*//g' /proc/avm/powermanagmentressourceinfo/powerdevice_temperature | grep -v '^0$' 2>/dev/null)"
-[ -z "$_CPU_TMP" ] && _CPU_TMP="$(sed -rn 's!^(CPU|cpu-thermal) *: ([0-9.]*) .*!\2!p' /proc/avm/temp_sensors 2>/dev/null)"
+_CPU_TMP="$(modtemp)"
 
 
 sec_begin "$(lang de:"Hardware" en:"Hardware")"
@@ -169,8 +167,8 @@ sec_end
 
 sec_begin "$(lang de:"Bootenvironment" en:"Boot environment")"
 
-[ -n "$ubootversion" ] && echo "<dl class='info'>" && echo "<dt>$(lang de:"U-Boot Version" en:"Version of U-Boot")</dt><dd>$ubootversion</dd>" && echo "</dl>"
 echo "<dl class='info'>"
+[ -n "$ubootversion" ] && echo "<dt>$(lang de:"U-Boot Version" en:"Version of U-Boot")</dt><dd>$ubootversion</dd>"
 [ -n "$loaderversion" ]  && echo "<dt>$(lang de:"Bootloaderversion" en:"Version of bootloader")</dt><dd>$loaderversion</dd>"
 [ -n "$urladerversion" ] && echo "<dt>$(lang de:"Urladerversion" en:"Version of urlader")</dt><dd>$urladerversion</dd>"
 [ -n "$loaderversion$urladerversion" -a -n "$defaultpass$reboot_status" ] && echo "</dl>" && echo "<dl class='info'>"

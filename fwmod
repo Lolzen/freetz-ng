@@ -193,7 +193,7 @@ BUSYBOX="${TOOLS_DIR}/${BUSYBOX_TOOL}"
 BLKID="${TOOLS_DIR}/blkid"
 
 # Tools in $PATH
-PATCHELF_TARGET="patchelf-target"
+PATCHELF="patchelf"
 
 # Freetz directores relative to base dir
 PACKAGES_DIR_ROOT="${BASE_DIR}/packages"
@@ -1770,7 +1770,7 @@ if [ "$action_names" ]; then
 
 	# Remove left over version-constrol-system files
 	echo1 "checking for left over version-control-system files"
-	find "$MOD_DIR" \( -type d -name '.svn' \) -o \( -type d -name '.git' \) -o -name '.gitignore' | xargs rm -rf
+	find "$MOD_DIR" \( -type d -name '.svn' \) -o \( -type d -name '.git' \) -o -name '.gitignore' -o -name '.gitattributes' | xargs rm -rf
 
 	# Delete all files that we are going to re-create now
 	rm -f "$VARTAR_MOD"
@@ -2101,6 +2101,7 @@ if [ "$DO_PACK" -gt 0 ]; then
 			[ "$FREETZ_AVM_HAS_FWLAYOUT_3" == "y" ] && FILESYSTEM_LIMIT="$(sed -nr 's/^ATOM_filesystem_size=(.*)/\1/p' ${FIRMWARE_DIR}/var/install)"
 			[ "$FREETZ_AVM_HAS_FWLAYOUT_4" == "y" ] && FILESYSTEM_LIMIT="72"  # https://bitbucket.org/fesc2000/ffritz/src/6591/README-6591.md
 			[ "$FREETZ_AVM_HAS_FWLAYOUT_5" == "y" ] && FILESYSTEM_LIMIT="$(sed -rn 's/.*ubimkvol.*avm_filesys_0.* (.*)MiB.*/\1/p' ${FILESYSTEM_DIR}/etc/init.d/flash_update)"
+			[ "$FREETZ_AVM_HAS_FIT_FS_SIZE" -gt 0 ] 2>/dev/null && FILESYSTEM_LIMIT="$FREETZ_AVM_HAS_FIT_FS_SIZE"
 			[ "$FILESYSTEM_LIMIT" -le 1024 ] 2>/dev/null && FILESYSTEM_LIMIT="$(( $FILESYSTEM_LIMIT *1024*1024 ))"
 			[ "$FILESYSTEM_LIMIT" -le 0 ] 2>/dev/null && FILESYSTEM_LIMIT=""
 		fi
@@ -2213,13 +2214,13 @@ if [ "$DO_PACK" -gt 0 ]; then
 		fi
 		# make fit image with avm-magic
 		SOURCE_DATE_EPOCH="$(cat "$FITIMAGE_MOD_DIR/date.txt")" $TOOLS_DIR/fit/mkimage -f "$FITIMAGE_MOD_DIR/image.its" "$FITIMAGE_MOD_DIR/image.itb" >/dev/null || error 1 "packing failed"
-		$TOOLS_DIR/yf/fit_tools/fit-add-avm-header.sh -k "$FIRMWARE_DIR/var/tmp/fit-image" "$FITIMAGE_MOD_DIR/image.itb" > "$FIRMWARE_MOD_DIR/var/tmp/fit-image" || error 1 "packing failed"
+		$TOOLS_DIR/yf/fit_tools/fit-add-avm-header.sh "$FITIMAGE_MOD_DIR/image.itb" > "$FIRMWARE_MOD_DIR/var/tmp/fit-image" || error 1 "packing failed"
 		# size info
 		FITIMAGE_SIZE="$(wc -c < "$FIRMWARE_MOD_DIR/var/tmp/fit-image")"
-		if [ -n "$FILESYSTEM_LIMIT" ]; then
+		if [ -n "$FILESYSTEM_LIMIT" -a "$FREETZ_AVM_HAS_FIT_IMG_SIZE" -eq "0" ]; then 
 			echo1 "fitimg file size: $(byte_to_mb $FITIMAGE_SIZE)"
 		else
-			FITIMAGE_LIMIT="$(( $FREETZ_AVM_HAS_FIT_SIZE *1024*1024 ))"
+			FITIMAGE_LIMIT="$(( $FREETZ_AVM_HAS_FIT_IMG_SIZE *1024*1024 ))"
 			[ "$FITIMAGE_LIMIT" -eq 0 ] && error 1 "maximum fit size is invalid"
 			let FITIMAGE_DIFF="FITIMAGE_SIZE-FITIMAGE_LIMIT"
 			echo1 "fitimg file size: $(byte_to_mb $FITIMAGE_SIZE), max $(byte_to_mb $FITIMAGE_LIMIT), free $(byte_to_mb $((-FITIMAGE_DIFF))) ($((-FITIMAGE_DIFF)) bytes)"
@@ -2266,6 +2267,19 @@ if [ "$DO_PACK" -gt 0 ]; then
 
 	echo1 -l "source firmware: ${SOURCE_IMAGE_DETAILS} ${SOURCE_IMAGE_SIZE}"
 	echo1 "source image file size: $(byte_to_mb $(wc -c < "${FIRMWARE}")) ($(wc -c < "${FIRMWARE}") bytes)"
+
+	# unmodified fit for fiber cpu
+	if [ -n "$FREETZ_AVM_HAS_AR7_LITE" ]; then
+		fit_src="${img_name%.*}.fit"
+		fit_dst="${AVM_FW_VERSION}-${AVM_FW_REVISION}.fit"
+		ln -f "$FIRMWARE_DIR/var/tmp/fit-image" "$fit_src" 2>/dev/null || cp -p "$FIRMWARE_DIR/var/tmp/fit-image" "$fit_src"
+		hint "The fiber module needs an unmodified fit-image."
+		hint "Put '$fit_src'"
+		hint "to the internal storage on your device into"
+		hint "directory 'fit-image' with file name '$fit_dst'."
+		hint "Full path: '/var/media/ftp/fit-image/$fit_dst'"
+		hint "This should be done befor flashing this image!"
+	fi
 
 	# create the link images/latest.image to the just created .image
 	img_link="${img_name%/*}/latest.image"

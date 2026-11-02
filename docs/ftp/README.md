@@ -47,8 +47,8 @@ Content: [FritzBox](#fritzbox) - [FritzPowerline](#fritzpowerline) - [FritzSmart
     - deutschland: [FRITZ.Box_5630-08.50.image](https://download.avm.de/fritzbox/fritzbox-5630/deutschland/fritz.os/FRITZ.Box_5630-08.50.image)
     - other: [FRITZ.Box_5630-08.50.image](https://download.avm.de/fritzbox/fritzbox-5630/other/fritz.os/FRITZ.Box_5630-08.50.image)
   * fritzbox-5690/
-    - deutschland: [FRITZ.Box_5690-08.25.image](https://download.avm.de/fritzbox/fritzbox-5690/deutschland/fritz.os/FRITZ.Box_5690-08.25.image)
-    - other: [FRITZ.Box_5690-08.25.image](https://download.avm.de/fritzbox/fritzbox-5690/other/fritz.os/FRITZ.Box_5690-08.25.image)
+    - deutschland: [FRITZ.Box_5690-08.50.image](https://download.avm.de/fritzbox/fritzbox-5690/deutschland/fritz.os/FRITZ.Box_5690-08.50.image)
+    - other: [FRITZ.Box_5690-08.50.image](https://download.avm.de/fritzbox/fritzbox-5690/other/fritz.os/FRITZ.Box_5690-08.50.image)
   * fritzbox-5690-pro/
     - deutschland: [FRITZ.Box_5690_Pro-08.25.image](https://download.avm.de/fritzbox/fritzbox-5690-pro/deutschland/fritz.os/FRITZ.Box_5690_Pro-08.25.image)
     - other: [FRITZ.Box_5690_Pro-08.25.image](https://download.avm.de/fritzbox/fritzbox-5690-pro/other/fritz.os/FRITZ.Box_5690_Pro-08.25.image)
@@ -171,8 +171,8 @@ Content: [FritzBox](#fritzbox) - [FritzPowerline](#fritzpowerline) - [FritzSmart
     - deutschland: [FRITZ.Box_7530-08.25.image](https://download.avm.de/fritzbox/fritzbox-7530/deutschland/fritz.os/FRITZ.Box_7530-08.25.image)
     - other: [FRITZ.Box_7530-08.25.image](https://download.avm.de/fritzbox/fritzbox-7530/other/fritz.os/FRITZ.Box_7530-08.25.image)
   * fritzbox-7530-ax/
-    - deutschland: [FRITZ.Box_7530_AX-08.25.image](https://download.avm.de/fritzbox/fritzbox-7530-ax/deutschland/fritz.os/FRITZ.Box_7530_AX-08.25.image)
-    - other: [FRITZ.Box_7530_AX-08.25.image](https://download.avm.de/fritzbox/fritzbox-7530-ax/other/fritz.os/FRITZ.Box_7530_AX-08.25.image)
+    - deutschland: [FRITZ.Box_7530_AX-08.50.image](https://download.avm.de/fritzbox/fritzbox-7530-ax/deutschland/fritz.os/FRITZ.Box_7530_AX-08.50.image)
+    - other: [FRITZ.Box_7530_AX-08.50.image](https://download.avm.de/fritzbox/fritzbox-7530-ax/other/fritz.os/FRITZ.Box_7530_AX-08.50.image)
   * fritzbox-7560/
     - deutschland: [FRITZ.Box_7560-07.30.image](https://download.avm.de/fritzbox/fritzbox-7560/deutschland/fritz.os/FRITZ.Box_7560-07.30.image)
     - other: [FRITZ.Box_7560-07.30.image](https://download.avm.de/fritzbox/fritzbox-7560/other/fritz.os/FRITZ.Box_7560-07.30.image)
